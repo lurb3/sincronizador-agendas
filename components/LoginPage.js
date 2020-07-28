@@ -1,6 +1,7 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { View, Text, Button, TextInput } from "react-native";
+const axios = require('axios');
 
 const LoginPage = (props) => {
 
@@ -39,6 +40,12 @@ const LoginPage = (props) => {
     const handleSubmit = (e) => {
         console.log(props);
     }
+
+    useEffect(() => {
+        fetch('localhost:3000')
+            .then(response => response.json())
+            .then(commits => alert(commits[0].author.login));
+    }, [])
 
     return (
         <View
