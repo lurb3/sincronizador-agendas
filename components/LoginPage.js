@@ -38,13 +38,17 @@ const LoginPage = (props) => {
     }
 
     const handleSubmit = (e) => {
+        axios.get('http://192.168.1.12:3000')
+            .then(function (response) {
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
         console.log(props);
     }
 
     useEffect(() => {
-        fetch('localhost:3000')
-            .then(response => response.json())
-            .then(commits => alert(commits[0].author.login));
     }, [])
 
     return (
