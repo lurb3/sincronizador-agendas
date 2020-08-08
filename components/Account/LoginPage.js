@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { View, Text, Button, TextInput, StyleSheet } from "react-native";
+import { View, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 
 import * as AccountStyle from "../Styles/AccountStyles";
 const axios = require('axios');
@@ -25,6 +25,9 @@ const LoginPage = (props) => {
         formInput: {
             ...AccountStyle.formInput
         },
+        formSubmit: {
+            ...AccountStyle.formSubmit
+        }
       })
 
     const updateUserInfo = (input, type) => {
@@ -105,8 +108,11 @@ const LoginPage = (props) => {
                 value={props.password}
             />
 
-            <Button color="#0068C8" onPress={ handleSubmit } title="Create account">
-            </Button>
+            <TouchableOpacity style={{alignItems: "center", backgroundColor: "#0068C8", padding: 15}} activeOpacity={0.7}>
+                <Text style={styles.formSubmit} onPress={ handleSubmit }>
+                    Create account
+                </Text>
+            </TouchableOpacity>
         </View>
     );
 }

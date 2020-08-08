@@ -14,17 +14,23 @@ export const title = {
 export const formLabel = {
     fontSize: 16,
     color: "#0068C8",
-    textAlign: 'center'
+    textAlign: "center"
 }
 
 export const formInput = { 
-    backgroundColor: 'white',
+    backgroundColor: "white",
     height: 40,
     marginBottom: 20,
     padding: 10,
-    alignSelf: 'stretch',
-    borderColor: 'rgba(0,0,0,0.19)',
+    alignSelf: "stretch",
+    borderColor: "rgba(0,0,0,0.19)",
     borderWidth: 1,
     shadowOffset: { width: 0, height: 2},
     elevation: 4,
+}
+
+export const formSubmit = {
+    alignItems: "center",
+    color: "white",
+    padding: 0,
 }
