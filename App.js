@@ -4,8 +4,7 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 
 // Components
-import Counter from "./components/Counter";
-import LoginPage from "./components/LoginPage";
+import LoginPage from "./components/Account/LoginPage";
 
 const initialState = {
 	user: '',
