@@ -2,6 +2,7 @@ var express = require('express');
 var { graphqlHTTP } = require('express-graphql');
 var { buildSchema } = require('graphql');
 var mysql = require('mysql');
+const cors = require('cors');
 
 var schema = buildSchema(`
     type User {
@@ -38,6 +39,7 @@ const root = {
   };
 
 var app = express();
+app.use(cors())
 
 app.use((req, res, next) => {
     req.mysqlDb = mysql.createConnection({

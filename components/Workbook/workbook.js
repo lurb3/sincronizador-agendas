@@ -78,9 +78,12 @@ const LoginPage = (props) => {
             })
         console.log(props);
     }
+    
+    const getAllUsers = useQuery(GET_USERS);
 
     return (
         <View style={styles.wrapper}>
+            <Text>{JSON.stringify(getAllUsers.data, null, 2)}</Text>
             <View>
                 <Text style={styles.title}> Workbook App </Text>
                 <Text style={styles.subtitle}>Sign in to workbook </Text>

@@ -3,8 +3,16 @@ import { View, Text, Button } from "react-native";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
+
+
 // Components
 import LoginPage from "./components/Account/LoginPage";
+
+const client = new ApolloClient({
+	uri: 'http://192.168.1.5:4000/graphql'
+});
 
 const initialState = {
 	user: '',
@@ -38,6 +46,8 @@ const store = createStore(reducer);
 
 export default function App() {
   return (
+	  
+  <ApolloProvider client={client}>
     <View
       style={{
         flex: 1,
@@ -49,5 +59,6 @@ export default function App() {
 			<LoginPage />
 		</Provider>
     </View>
+  </ApolloProvider>
   );
 }

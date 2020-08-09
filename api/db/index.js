@@ -4,7 +4,7 @@ const con = mysql.createConnection({
     user: "root",
     password: "",
     database: 'test'
-});
+  });
 
 const createUserModel = require('./user');
 
