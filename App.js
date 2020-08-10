@@ -6,9 +6,11 @@ import { Provider } from "react-redux";
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 
+import { NativeRouter, Route, Link } from "react-router-native";
 
 // Components
 import LoginPage from "./components/Account/LoginPage";
+import SignupPage from "./components/Account/SignupPage";
 
 const client = new ApolloClient({
 	uri: 'http://192.168.1.5:4000/graphql'
@@ -56,7 +58,11 @@ export default function App() {
       }}
     >
 		<Provider store={store}>
-			<LoginPage />
+			<NativeRouter>
+				<Route exact path="/" component={LoginPage}  />
+				<Route exact path="/signup" component={SignupPage}  />
+			</NativeRouter>
+			
 		</Provider>
     </View>
   </ApolloProvider>

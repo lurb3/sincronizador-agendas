@@ -34,3 +34,10 @@ export const formSubmit = {
     color: "white",
     padding: 0,
 }
+
+export const signupLabel = {
+    fontSize: 16,
+    color: "#0068C8",
+    textAlign: "right",
+    marginTop: 10
+}

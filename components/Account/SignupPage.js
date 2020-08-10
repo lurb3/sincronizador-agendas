@@ -11,7 +11,7 @@ import { GET_USERS } from "../Queries";
 
 const axios = require('axios');
 
-const LoginPage = (props) => {
+const SignupPage = (props) => {
 
     const styles = StyleSheet.create({
         title: {
@@ -129,4 +129,4 @@ const mapStateToProps = (state) => ({
     password: state.password
 })
 
-export default connect(mapStateToProps)(LoginPage);
+export default connect(mapStateToProps)(SignupPage);

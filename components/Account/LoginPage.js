@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { View, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { NativeRouter, Route, Link } from "react-router-native";
 
 import * as AccountStyle from "../Styles/AccountStyles";
 
@@ -33,8 +34,11 @@ const LoginPage = (props) => {
         },
         formSubmit: {
             ...AccountStyle.formSubmit
+        },
+        signupLabel: {
+            ...AccountStyle.signupLabel
         }
-      })
+    })
 
     const updateUserInfo = (input, type) => {
         switch(type) {
@@ -60,22 +64,18 @@ const LoginPage = (props) => {
         props.dispatch(updateUserInfo(e, 'UPDATE_USER'))
     }
 
-    const handleEmail = (e) => {
-        props.dispatch(updateUserInfo(e, 'UPDATE_EMAIL'))
-    }
-
     const handlePassword = (e) => {
         props.dispatch(updateUserInfo(e, 'UPDATE_PASSWORD'))
     }
 
     const handleSubmit = (e) => {
-        axios.get('http://192.168.1.5:3000/')
+        /*axios.get('http://192.168.1.5:3000/graphql')
             .then(function (response) {
                 console.log(response.data);
             })
             .catch(function (error) {
                 console.log(error);
-            })
+            })*/
         console.log(props);
     }
 
@@ -94,16 +94,6 @@ const LoginPage = (props) => {
             />
 
             <Text style={styles.formLabel}>
-                Name
-            </Text>
-            
-            <TextInput
-                style={styles.formInput}
-                onChange={ handleEmail }
-                value={props.email}
-            />
-
-            <Text style={styles.formLabel}>
                 Password
             </Text>
 
@@ -114,11 +104,17 @@ const LoginPage = (props) => {
                 value={props.password}
             />
 
-            <TouchableOpacity style={{alignItems: "center", backgroundColor: "#0068C8", padding: 15}} activeOpacity={0.7}>
-                <Text style={styles.formSubmit} onPress={ handleSubmit }>
-                    Create account
+            <TouchableOpacity style={{alignItems: "center", backgroundColor: "#0068C8", padding: 15}} activeOpacity={0.7} onPress={ handleSubmit }>
+                <Text style={styles.formSubmit}>
+                    Sign in
                 </Text>
             </TouchableOpacity>
+            
+            <Link to="/signup">
+            <Text style={ styles.signupLabel }>
+                Sign up
+            </Text>
+            </Link>
         </View>
     );
 }
