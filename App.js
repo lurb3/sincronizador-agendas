@@ -13,7 +13,7 @@ import LoginPage from "./components/Account/LoginPage";
 import SignupPage from "./components/Account/SignupPage";
 
 const client = new ApolloClient({
-	uri: 'http://192.168.1.5:4000/graphql'
+	uri: 'http://192.168.1.2:4000/graphql'
 });
 
 const initialState = {

@@ -69,14 +69,14 @@ const LoginPage = (props) => {
     }
 
     const handleSubmit = (e) => {
-        /*axios.get('http://192.168.1.5:3000/graphql')
+        /*axios.get('http://192.168.1.2:4000/graphql')
             .then(function (response) {
                 console.log(response.data);
             })
             .catch(function (error) {
                 console.log(error);
             })*/
-        console.log(props);
+        console.log(props.email);
     }
 
     return (

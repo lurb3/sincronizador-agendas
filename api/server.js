@@ -36,7 +36,7 @@ const root = {
     updateUserInfo: (args, req) => queryDB(req, "update users SET ? where id = ?", [args, args.id]).then(data => data),
     createUser: (args, req) => queryDB(req, "insert into users SET ?", args).then(data => data),
     deleteUser: (args, req) => queryDB(req, "delete from users where id = ?", [args.id]).then(data => data)
-  };
+};
 
 var app = express();
 app.use(cors())

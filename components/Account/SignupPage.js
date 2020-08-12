@@ -69,14 +69,19 @@ const SignupPage = (props) => {
     }
 
     const handleSubmit = (e) => {
-        axios.get('http://192.168.1.5:3000/')
-            .then(function (response) {
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-        console.log(props);
+
+        /*{getUsers{id, name, username, email}}*/
+
+            fetch('http://192.168.1.2:4000/graphql', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({query: `mutation {createUser(name: "${props.password}", username: "${props.user}", email: "${props.email}")}`})
+          })
+            .then(r => r.json())
+            .then(data => console.log('data returned:', data));
     }
 
     return (
@@ -114,8 +119,8 @@ const SignupPage = (props) => {
                 value={props.password}
             />
 
-            <TouchableOpacity style={{alignItems: "center", backgroundColor: "#0068C8", padding: 15}} activeOpacity={0.7}>
-                <Text style={styles.formSubmit} onPress={ handleSubmit }>
+            <TouchableOpacity style={{alignItems: "center", backgroundColor: "#0068C8", padding: 15}} activeOpacity={0.7} onPress={ handleSubmit }>
+                <Text style={styles.formSubmit}>
                     Create account
                 </Text>
             </TouchableOpacity>
