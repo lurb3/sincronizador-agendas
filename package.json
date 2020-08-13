@@ -9,6 +9,7 @@
     "express-graphql": "^0.11.0",
     "graphql-http": "^0.2.0",
     "mysql": "^2.18.1",
+    "password-hash": "^1.2.2",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",

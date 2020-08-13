@@ -1,23 +1,25 @@
-var express = require('express');
-var { graphqlHTTP } = require('express-graphql');
-var { buildSchema } = require('graphql');
-var mysql = require('mysql');
+let express = require('express');
+let { graphqlHTTP } = require('express-graphql');
+let { buildSchema } = require('graphql');
+let passwordHash = require('password-hash');
+let mysql = require('mysql');
 const cors = require('cors');
 
-var schema = buildSchema(`
+let schema = buildSchema(`
     type User {
         id: String
         name: String
         username: String
-        email: String
+        password: String
     }
     type Query {
-      getUsers: [User],
-      getUserInfo(id: Int) : User
+        getUsers: [User],
+        getUserInfo(id: Int) : User,
     }    
     type Mutation {
-        updateUserInfo(id: Int, name: String, email: String, username: String) : Boolean
-        createUser(name: String, email: String, username: String) : Boolean
+        updateUserInfo(id: Int, name: String, username: String, password: String) : Boolean
+        createUser(name: String, username: String, password: String) : Boolean
+        authUser(username: String, password: String) : Boolean
         deleteUser(id: Int) : Boolean
     }
 `);
@@ -31,14 +33,28 @@ const queryDB = (req, sql, args) => new Promise((resolve, reject) => {
 });
 
 const root = {
+    authUser: (args, req) => {
+        queryDB(req, "select * from users")
+            .then(data =>{
+                data.map((item, index) => {
+                    if(passwordHash.verify(args.password, item.password)) {
+                        return data;
+                    }
+                })
+                return data;
+            })
+    },
     getUsers: (args, req) => queryDB(req, "select * from users").then(data => data),
     getUserInfo: (args, req) => queryDB(req, "select * from users where id = ?", [args.id]).then(data => data[0]),
     updateUserInfo: (args, req) => queryDB(req, "update users SET ? where id = ?", [args, args.id]).then(data => data),
-    createUser: (args, req) => queryDB(req, "insert into users SET ?", args).then(data => data),
+    createUser: (args, req) => {
+        args.password = passwordHash.generate(args.password)
+        queryDB(req, "insert into users SET ?", args).then(data => data)
+    },
     deleteUser: (args, req) => queryDB(req, "delete from users where id = ?", [args.id]).then(data => data)
 };
 
-var app = express();
+let app = express();
 app.use(cors())
 
 app.use((req, res, next) => {

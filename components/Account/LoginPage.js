@@ -69,14 +69,18 @@ const LoginPage = (props) => {
     }
 
     const handleSubmit = (e) => {
-        /*axios.get('http://192.168.1.2:4000/graphql')
-            .then(function (response) {
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })*/
-        console.log(props.email);
+        fetch('http://192.168.1.6:4000/graphql', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({query: `mutation {
+                authUser(password:"${props.password}")
+              }`})
+          })
+            .then(r => r.json())
+            .then(data => console.log('data returned:', data));
     }
 
     return (
