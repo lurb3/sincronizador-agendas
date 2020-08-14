@@ -11,15 +11,16 @@ let schema = buildSchema(`
         name: String
         username: String
         password: String
+        logedin: Boolean
     }
     type Query {
         getUsers: [User],
         getUserInfo(id: Int) : User,
+        authUser(username: String, password: String) : User
     }    
     type Mutation {
         updateUserInfo(id: Int, name: String, username: String, password: String) : Boolean
         createUser(name: String, username: String, password: String) : Boolean
-        authUser(username: String, password: String) : Boolean
         deleteUser(id: Int) : Boolean
     }
 `);
@@ -33,17 +34,14 @@ const queryDB = (req, sql, args) => new Promise((resolve, reject) => {
 });
 
 const root = {
-    authUser: (args, req) => {
-        queryDB(req, "select * from users")
-            .then(data =>{
-                data.map((item, index) => {
-                    if(passwordHash.verify(args.password, item.password)) {
-                        return data;
-                    }
-                })
-                return data;
-            })
-    },
+    authUser: (args, req) => queryDB(req, "select * from users where username = ?", [args.username]).then(data => {
+        let verifyPassword = passwordHash.verify(args.password, data[0].password);
+        if (verifyPassword) {
+            return {logedin: true}
+        } else {
+            return {logedin: false}
+        }
+    }),
     getUsers: (args, req) => queryDB(req, "select * from users").then(data => data),
     getUserInfo: (args, req) => queryDB(req, "select * from users where id = ?", [args.id]).then(data => data[0]),
     updateUserInfo: (args, req) => queryDB(req, "update users SET ? where id = ?", [args, args.id]).then(data => data),

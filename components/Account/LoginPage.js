@@ -69,15 +69,13 @@ const LoginPage = (props) => {
     }
 
     const handleSubmit = (e) => {
-        fetch('http://192.168.1.6:4000/graphql', {
+        fetch('http://192.168.1.20:4000/graphql', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: JSON.stringify({query: `mutation {
-                authUser(password:"${props.password}")
-              }`})
+            body: JSON.stringify({query: `mutation {authUser(username:"${props.user}" password:"${props.password}")}`})
           })
             .then(r => r.json())
             .then(data => console.log('data returned:', data));

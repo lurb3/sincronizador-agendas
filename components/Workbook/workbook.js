@@ -69,7 +69,7 @@ const LoginPage = (props) => {
     }
 
     const handleSubmit = (e) => {
-        axios.get('http://192.168.1.6:3000/')
+        axios.get('http://192.168.1.20:3000/')
             .then(function (response) {
                 console.log(response.data);
             })
