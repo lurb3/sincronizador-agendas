@@ -11,7 +11,7 @@ let schema = buildSchema(`
         name: String
         username: String
         password: String
-        logedin: Boolean
+        status: String
     }
     type Query {
         getUsers: [User],
@@ -35,11 +35,16 @@ const queryDB = (req, sql, args) => new Promise((resolve, reject) => {
 
 const root = {
     authUser: (args, req) => queryDB(req, "select * from users where username = ?", [args.username]).then(data => {
+        if(data == ''){
+            return {status: "User does not exists"};
+        }
+
         let verifyPassword = passwordHash.verify(args.password, data[0].password);
+
         if (verifyPassword) {
-            return {logedin: true}
+            return {status: "authenticated"}
         } else {
-            return {logedin: false}
+            return {status: "Wrong Password"}
         }
     }),
     getUsers: (args, req) => queryDB(req, "select * from users").then(data => data),

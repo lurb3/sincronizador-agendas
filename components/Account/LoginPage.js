@@ -75,10 +75,12 @@ const LoginPage = (props) => {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: JSON.stringify({query: `mutation {authUser(username:"${props.user}" password:"${props.password}")}`})
+            body: JSON.stringify({query: `{authUser(username:"${props.user}", password:"${props.password}") {
+                status
+              }}`})
           })
             .then(r => r.json())
-            .then(data => console.log('data returned:', data));
+            .then(data => console.log('data returned:', data.data.authUser.status));
     }
 
     return (
