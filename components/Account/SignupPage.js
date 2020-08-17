@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { View, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { Link } from "react-router-native";
 
 import * as AccountStyle from "../Styles/AccountStyles";
 
@@ -84,43 +85,55 @@ const SignupPage = (props) => {
     return (
         <View style={styles.wrapper}>
             <View>
-                <Text style={styles.title}> Workbook App </Text>
-                <Text style={styles.subtitle}>Sign in to workbook </Text>
+                <TouchableOpacity style={{alignSelf:'flex-start', padding: 15}} activeOpacity={0.7}>
+                    <Link to="/" style={{paddingTop:0}}>
+                        <Text>
+                            LOGIN PAGE
+                        </Text>
+                    </Link>
+                </TouchableOpacity>
             </View>
+            <View>
 
-            <Text style={styles.formLabel}>Login</Text>
-            <TextInput
-                style={styles.formInput}
-                onChange={ handleUserName }
-                value={props.user}
-            />
+                <View>
+                    <Text style={styles.title}> Workbook App </Text>
+                    <Text style={styles.subtitle}>Sign in to workbook </Text>
+                </View>
 
-            <Text style={styles.formLabel}>
-                Name
-            </Text>
-            
-            <TextInput
-                style={styles.formInput}
-                onChange={ handleEmail }
-                value={props.email}
-            />
+                <Text style={styles.formLabel}>Login</Text>
+                <TextInput
+                    style={styles.formInput}
+                    onChange={ handleUserName }
+                    value={props.user}
+                />
 
-            <Text style={styles.formLabel}>
-                Password
-            </Text>
-
-            <TextInput
-                secureTextEntry={true}
-                style={styles.formInput}
-                onChange={ handlePassword }
-                value={props.password}
-            />
-
-            <TouchableOpacity style={{alignItems: "center", backgroundColor: "#0068C8", padding: 15}} activeOpacity={0.7} onPress={ handleSubmit }>
-                <Text style={styles.formSubmit}>
-                    Create account
+                <Text style={styles.formLabel}>
+                    Name
                 </Text>
-            </TouchableOpacity>
+                
+                <TextInput
+                    style={styles.formInput}
+                    onChange={ handleEmail }
+                    value={props.email}
+                />
+
+                <Text style={styles.formLabel}>
+                    Password
+                </Text>
+
+                <TextInput
+                    secureTextEntry={true}
+                    style={styles.formInput}
+                    onChange={ handlePassword }
+                    value={props.password}
+                />
+
+                <TouchableOpacity style={{alignItems: "center", backgroundColor: "#0068C8", padding: 15}} activeOpacity={0.7} onPress={ handleSubmit }>
+                    <Text style={styles.formSubmit}>
+                        Create account
+                    </Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }

@@ -7,10 +7,12 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 
 import { NativeRouter, Route, Link } from "react-router-native";
+import { useHistory } from "react-router-dom";
 
 // Components
 import LoginPage from "./components/Account/LoginPage";
 import SignupPage from "./components/Account/SignupPage";
+import Workbook from "./components/Workbook/Workbook";
 
 const client = new ApolloClient({
 	uri: 'http://192.168.1.20:4000/graphql'
@@ -59,8 +61,11 @@ export default function App() {
     >
 		<Provider store={store}>
 			<NativeRouter>
-				<Route exact path="/" component={LoginPage}  />
-				<Route exact path="/signup" component={SignupPage}  />
+				<Route exact path="/" component={
+					() => <LoginPage history={ useHistory() } />
+				}/>
+				<Route exact path="/signup" component={ SignupPage }  />
+				<Route exact path="/workbook" component={ Workbook }  />
 			</NativeRouter>
 			
 		</Provider>

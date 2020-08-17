@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { View, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { NativeRouter, Route, Link } from "react-router-native";
+import { Link } from "react-router-native";
 
 import * as AccountStyle from "../Styles/AccountStyles";
 
@@ -80,7 +80,11 @@ const LoginPage = (props) => {
               }}`})
           })
             .then(r => r.json())
-            .then(data => console.log('data returned:', data.data.authUser.status));
+            .then(data => {
+                if(data.data.authUser.status == 'authenticated') {
+                    props.history.push('/workbook')
+                }
+            });
     }
 
     return (
@@ -115,9 +119,9 @@ const LoginPage = (props) => {
             </TouchableOpacity>
             
             <Link to="/signup">
-            <Text style={ styles.signupLabel }>
-                Sign up
-            </Text>
+                <Text style={ styles.signupLabel }>
+                    Sign up
+                </Text>
             </Link>
         </View>
     );
