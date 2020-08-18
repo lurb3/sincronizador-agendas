@@ -4,6 +4,7 @@ let { buildSchema } = require('graphql');
 let passwordHash = require('password-hash');
 let mysql = require('mysql');
 const cors = require('cors');
+const { query } = require('express');
 
 let schema = buildSchema(`
     type User {
@@ -13,10 +14,16 @@ let schema = buildSchema(`
         password: String
         status: String
     }
+    type Workbook {
+        id: String
+        name: String
+        task_id: String
+        user_id: String
+    }
     type Query {
-        getUsers: [User],
-        getUserInfo(id: Int) : User,
+        getUserInfo(user: String) : User,
         authUser(user: String, password: String) : User
+        getWorkbooks(user_id: String): [Workbook],
     }    
     type Mutation {
         updateUserInfo(id: Int, user: String, name: String, password: String) : Boolean
@@ -47,8 +54,8 @@ const root = {
             return {status: "Wrong Password"}
         }
     }),
-    getUsers: (args, req) => queryDB(req, "select * from users").then(data => data),
-    getUserInfo: (args, req) => queryDB(req, "select * from users where id = ?", [args.id]).then(data => data[0]),
+    getUserId: (args, req) => queryDB(req, "select id from users where user = ?"),
+    getUserInfo: (args, req) => queryDB(req, "select * from users where user = ?", [args.user]).then(data => data[0]),
     updateUserInfo: (args, req) => queryDB(req, "update users SET ? where id = ?", [args, args.id]).then(data => data),
     createUser: (args, req) => {
         queryDB(req, "select user from users where user = ?", [args.user]).then(data => {
@@ -62,7 +69,8 @@ const root = {
 
         //queryDB(req, "insert into users SET ?", args).then(data => data)
     },
-    deleteUser: (args, req) => queryDB(req, "delete from users where id = ?", [args.id]).then(data => data)
+    deleteUser: (args, req) => queryDB(req, "delete from users where id = ?", [args.id]).then(data => data),
+    getWorkbooks: (args, req) => queryDB(req, "select * from workbooks where user_id = ?", [args.user_id]).then(data => data),
 };
 
 let app = express();
