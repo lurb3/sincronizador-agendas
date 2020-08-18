@@ -70,7 +70,8 @@ const SignupPage = (props) => {
     }
 
     const handleSubmit = (e) => {
-            fetch('http://192.168.1.20:4000/graphql', {
+        console.log(props.user, props.email, props.password);
+            fetch('http://192.168.1.9:4000/graphql', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

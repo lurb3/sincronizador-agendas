@@ -51,6 +51,7 @@ const root = {
     getUserInfo: (args, req) => queryDB(req, "select * from users where id = ?", [args.id]).then(data => data[0]),
     updateUserInfo: (args, req) => queryDB(req, "update users SET ? where id = ?", [args, args.id]).then(data => data),
     createUser: (args, req) => {
+        console.log(args);
         args.password = passwordHash.generate(args.password)
         queryDB(req, "insert into users SET ?", args).then(data => data)
     },
