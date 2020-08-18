@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
 import WorkbookHeader from "./WorkbookHeader.js";
 import WorkbookList from "./WorkbookList.js";
@@ -8,10 +8,11 @@ import WorkbookFooter from "./WorkbookFooter.js";
 
 const Workbook = (props) => {
 
-    const [userId, setUserId] = useState('')
+    const [userId, setUserId] = useState('');
+    const [workbookData, setWorkbookData] = useState('');
 
     useEffect(() => {
-        fetch('http://192.168.1.9:4000/graphql', {
+        fetch('http://192.168.1.16:4000/graphql', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -25,27 +26,29 @@ const Workbook = (props) => {
 
     useEffect(() => {
         if(userId != '') {
-            fetch('http://192.168.1.9:4000/graphql', {
+            fetch('http://192.168.1.16:4000/graphql', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                   'Accept': 'application/json',
                 },
-                body: JSON.stringify({query: `{
-                    getWorkbooks (user_id: "${userId}") {
-                    id,name,task_id
-                  }
-                }`})
+                body: JSON.stringify({query: `{getWorkbooks (user_id: "${userId}") {id,name}}`})
             })
             .then(r => r.json())
-            .then(data => console.log(data));
+            .then(data => {
+                setWorkbookData(data);
+            });
         }
     },[userId])
+
+    useEffect(() => {
+        //console.log('data', workbookData.data.getWorkbooks)
+    }, [workbookData])
 
     return (
         <View style={{position:"relative", height:"100%"}}>
             <WorkbookHeader/>
-            <WorkbookList/>
+            <WorkbookList data={workbookData != '' ? workbookData.data.getWorkbooks : ''}/>
             <WorkbookFooter/>
         </View>
     );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
 import * as WorkbookStyles from "../Styles/WorkbookStyles";
@@ -6,6 +6,12 @@ import * as WorkbookStyles from "../Styles/WorkbookStyles";
 import bookIcon from "../../images/workbook/book_icon.png";
 
 const WorkbookList = (props) => {
+
+    const [data, setData] = useState('')
+
+    useEffect(() => {
+        props.data !== '' ? setData(props.data) : ''
+    }, [props.data])
 
     const styles = StyleSheet.create({
         listWrapper: {
@@ -24,35 +30,23 @@ const WorkbookList = (props) => {
 
     return (
         <ScrollView style={styles.listWrapper}>
-            <View style={styles.listItem}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={styles.workbookFontSize}>Website (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View style={styles.listItem}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={styles.workbookFontSize}>Agenda (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={styles.listItem}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={styles.workbookFontSize}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
+            {
+                data !== '' ?
+                    data.map((item, index) => {
+                            return(
+                                <View style={styles.listItem} key={ index }>
+                                    <Image
+                                        source={bookIcon}
+                                        style={{marginRight: 10}}
+                                    />
+                                    <TouchableOpacity>
+                                        <Text style={styles.workbookFontSize}>{ item.name }</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            )
+                    })
+                : <Text></Text>
+            }            
             
             <View style={styles.listNewItemText}>
                 <TouchableOpacity>
