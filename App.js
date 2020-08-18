@@ -15,7 +15,7 @@ import SignupPage from "./components/Account/SignupPage";
 import Workbook from "./components/Workbook/Workbook";
 
 const client = new ApolloClient({
-	uri: 'http://192.168.1.20:4000/graphql'
+	uri: 'http://192.168.1.9:4000/graphql'
 });
 
 const initialState = {
@@ -53,11 +53,6 @@ export default function App() {
 	  
   <ApolloProvider client={client}>
     <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
     >
 		<Provider store={store}>
 			<NativeRouter>
