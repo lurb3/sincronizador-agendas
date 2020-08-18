@@ -24,7 +24,22 @@ const Workbook = (props) => {
     },[])
 
     useEffect(() => {
-        console.log(userId)
+        if(userId != '') {
+            fetch('http://192.168.1.9:4000/graphql', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                },
+                body: JSON.stringify({query: `{
+                    getWorkbooks (user_id: "${userId}") {
+                    id,name,task_id
+                  }
+                }`})
+            })
+            .then(r => r.json())
+            .then(data => console.log(data));
+        }
     },[userId])
 
     return (
