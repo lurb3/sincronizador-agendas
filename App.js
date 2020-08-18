@@ -20,7 +20,7 @@ const client = new ApolloClient({
 
 const initialState = {
 	user: '',
-	email: '',
+	name: '',
 	password: ''
 };
 
@@ -29,12 +29,12 @@ const reducer = (state = initialState, action) => {
 		case('UPDATE_USER'):
 			return {
 				...state,
-				user: action.payload.user 
+				user: action.payload.user
 			}
-		case('UPDATE_EMAIL'):
+		case('UPDATE_NAME'):
 			return {
 				...state,
-				email: action.payload.email 
+				name: action.payload.name 
 			}
 		case('UPDATE_PASSWORD'):
 			return {

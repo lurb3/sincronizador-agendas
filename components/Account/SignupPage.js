@@ -5,13 +5,6 @@ import { Link } from "react-router-native";
 
 import * as AccountStyle from "../Styles/AccountStyles";
 
-import { useQuery } from '@apollo/react-hooks';
-import { GET_USERS } from "../Queries";
-
-//const userInfo = useQuery(VIEW_USERS, { variables: { id: 1 }});
-
-const axios = require('axios');
-
 const SignupPage = (props) => {
 
     const styles = StyleSheet.create({
@@ -44,10 +37,10 @@ const SignupPage = (props) => {
                     type: type,
                     payload: {user: input.nativeEvent.text}
                 }
-            case 'UPDATE_EMAIL' :
+            case 'UPDATE_NAME' :
                 return {
                     type: type,
-                    payload: {email: input.nativeEvent.text}
+                    payload: {name: input.nativeEvent.text}
                 }
             case 'UPDATE_PASSWORD' :
                 return {
@@ -57,12 +50,12 @@ const SignupPage = (props) => {
         }
     }
 
-    const handleUserName = (e) => {
+    const handleUser = (e) => {
         props.dispatch(updateUserInfo(e, 'UPDATE_USER'))
     }
 
-    const handleEmail = (e) => {
-        props.dispatch(updateUserInfo(e, 'UPDATE_EMAIL'))
+    const handleName = (e) => {
+        props.dispatch(updateUserInfo(e, 'UPDATE_NAME'))
     }
 
     const handlePassword = (e) => {
@@ -70,14 +63,14 @@ const SignupPage = (props) => {
     }
 
     const handleSubmit = (e) => {
-        console.log(props.user, props.email, props.password);
+        console.log(props.user, props.name, props.password);
             fetch('http://192.168.1.9:4000/graphql', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: JSON.stringify({query: `mutation {createUser(name: "${props.user}", username: "${props.email}", password: "${props.password}")}`})
+            body: JSON.stringify({query: `mutation {createUser(user: "${props.user}", name: "${props.name}", password: "${props.password}")}`})
           })
             .then(r => r.json())
             .then(data => console.log('data returned:', data));
@@ -104,7 +97,7 @@ const SignupPage = (props) => {
                 <Text style={styles.formLabel}>Login</Text>
                 <TextInput
                     style={styles.formInput}
-                    onChange={ handleUserName }
+                    onChange={ handleUser }
                     value={props.user}
                 />
 
@@ -114,8 +107,8 @@ const SignupPage = (props) => {
                 
                 <TextInput
                     style={styles.formInput}
-                    onChange={ handleEmail }
-                    value={props.email}
+                    onChange={ handleName }
+                    value={props.name}
                 />
 
                 <Text style={styles.formLabel}>
@@ -141,7 +134,7 @@ const SignupPage = (props) => {
 
 const mapStateToProps = (state) => ({
     user: state.user,
-    email: state.email,
+    name: state.name,
     password: state.password
 })
 

@@ -8,19 +8,19 @@ const cors = require('cors');
 let schema = buildSchema(`
     type User {
         id: String
+        user: String
         name: String
-        username: String
         password: String
         status: String
     }
     type Query {
         getUsers: [User],
         getUserInfo(id: Int) : User,
-        authUser(username: String, password: String) : User
+        authUser(user: String, password: String) : User
     }    
     type Mutation {
-        updateUserInfo(id: Int, name: String, username: String, password: String) : Boolean
-        createUser(name: String, username: String, password: String) : Boolean
+        updateUserInfo(id: Int, user: String, name: String, password: String) : Boolean
+        createUser(user: String, name: String, password: String) : Boolean
         deleteUser(id: Int) : Boolean
     }
 `);
@@ -34,7 +34,7 @@ const queryDB = (req, sql, args) => new Promise((resolve, reject) => {
 });
 
 const root = {
-    authUser: (args, req) => queryDB(req, "select * from users where username = ?", [args.username]).then(data => {
+    authUser: (args, req) => queryDB(req, "select * from users where user = ?", [args.user]).then(data => {
         if(data == ''){
             return {status: "User does not exists"};
         }

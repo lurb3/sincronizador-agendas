@@ -5,13 +5,6 @@ import { Link } from "react-router-native";
 
 import * as AccountStyle from "../Styles/AccountStyles";
 
-import { useQuery } from '@apollo/react-hooks';
-import { GET_USERS } from "../Queries";
-
-//const userInfo = useQuery(VIEW_USERS, { variables: { id: 1 }});
-
-const axios = require('axios');
-
 const LoginPage = (props) => {
 
     const styles = StyleSheet.create({
@@ -47,11 +40,6 @@ const LoginPage = (props) => {
                     type: type,
                     payload: {user: input.nativeEvent.text}
                 }
-            case 'UPDATE_EMAIL' :
-                return {
-                    type: type,
-                    payload: {email: input.nativeEvent.text}
-                }
             case 'UPDATE_PASSWORD' :
                 return {
                     type: type,
@@ -60,7 +48,7 @@ const LoginPage = (props) => {
         }
     }
 
-    const handleUserName = (e) => {
+    const handleUser = (e) => {
         props.dispatch(updateUserInfo(e, 'UPDATE_USER'))
     }
 
@@ -75,7 +63,7 @@ const LoginPage = (props) => {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: JSON.stringify({query: `{authUser(username:"${props.user}", password:"${props.password}") {
+            body: JSON.stringify({query: `{authUser(user:"${props.user}", password:"${props.password}") {
                 status
               }}`})
           })
@@ -97,7 +85,7 @@ const LoginPage = (props) => {
             <Text style={styles.formLabel}>Login</Text>
             <TextInput
                 style={styles.formInput}
-                onChange={ handleUserName }
+                onChange={ handleUser }
                 value={props.user}
             />
 
@@ -129,7 +117,7 @@ const LoginPage = (props) => {
 
 const mapStateToProps = (state) => ({
     user: state.user,
-    email: state.email,
+    name: state.name,
     password: state.password
 })
 
