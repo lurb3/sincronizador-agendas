@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text, Button, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View } from "react-native";
 
 import WorkbookHeader from "./WorkbookHeader.js";
 import WorkbookList from "./WorkbookList.js";

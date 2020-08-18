@@ -1,207 +1,65 @@
 import React from "react";
-import { View, ScrollView, Text, Button, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { Link } from "react-router-native";
+import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+
+import * as WorkbookStyles from "../Styles/WorkbookStyles";
 
 import bookIcon from "../../images/workbook/book_icon.png";
 
 const WorkbookList = (props) => {
+
+    const styles = StyleSheet.create({
+        listWrapper: {
+          ...WorkbookStyles.listWrapper,
+        },
+        listItem: {
+          ...WorkbookStyles.listItem,
+        },
+        workbookFontSize: {
+          ...WorkbookStyles.workbookFontSize,
+        },
+        listNewItemText: {
+          ...WorkbookStyles.listNewItemText,
+        },
+    })
+
     return (
-        <ScrollView style={{padding: 20, display: "flex", flexDirection: "column"}}>
-            <View style={{display: "flex", flexDirection: "row", marginBottom:20}}>
+        <ScrollView style={styles.listWrapper}>
+            <View style={styles.listItem}>
                 <Image
                     source={bookIcon}
                     style={{marginRight: 10}}
                 />
                 <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Website (Gustavo)</Text>
+                    <Text style={styles.workbookFontSize}>Website (Gustavo)</Text>
                 </TouchableOpacity>
             </View>
 
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
+            <View style={styles.listItem}>
                 <Image
                     source={bookIcon}
                     style={{marginRight: 10}}
                 />
                 <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Agenda (Gustavo)</Text>
+                    <Text style={styles.workbookFontSize}>Agenda (Gustavo)</Text>
                 </TouchableOpacity>
             </View>
             
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
+            <View style={styles.listItem}>
                 <Image
                     source={bookIcon}
                     style={{marginRight: 10}}
                 />
                 <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
+                    <Text style={styles.workbookFontSize}>Plataforma Online (Gustavo)</Text>
                 </TouchableOpacity>
             </View>
             
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
+            <View style={styles.listNewItemText}>
                 <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
+                    <Text style={{color: "#0068C8", fontSize: 20}}>
+                        Criar novo workbook
+                    </Text>
                 </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-                <Image
-                    source={bookIcon}
-                    style={{marginRight: 10}}
-                />
-                <TouchableOpacity>
-                    <Text style={{fontSize: 20}}>Plataforma Online2 (Gustavo)</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={{display: "flex", flexDirection: "row", marginBottom: 20}}>
-            <TouchableOpacity>
-                <Text style={{color: "#0068C8", fontSize: 20}}>
-                    Criar novo workbook
-                </Text>
-            </TouchableOpacity>
             </View>
         </ScrollView>
     );
