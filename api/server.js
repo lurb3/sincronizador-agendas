@@ -51,9 +51,16 @@ const root = {
     getUserInfo: (args, req) => queryDB(req, "select * from users where id = ?", [args.id]).then(data => data[0]),
     updateUserInfo: (args, req) => queryDB(req, "update users SET ? where id = ?", [args, args.id]).then(data => data),
     createUser: (args, req) => {
-        console.log(args);
-        args.password = passwordHash.generate(args.password)
-        queryDB(req, "insert into users SET ?", args).then(data => data)
+        queryDB(req, "select user from users where user = ?", [args.user]).then(data => {
+            if(data == '') {
+                args.password = passwordHash.generate(args.password);
+                queryDB(req, "insert into users SET ?", args).then(data => data)
+            } else {
+                return {data}
+            }
+        })
+
+        //queryDB(req, "insert into users SET ?", args).then(data => data)
     },
     deleteUser: (args, req) => queryDB(req, "delete from users where id = ?", [args.id]).then(data => data)
 };
