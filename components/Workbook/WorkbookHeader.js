@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text, Button, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Link } from "react-router-native";
 
-import addButton from "../../images/add_button.png";
-import settingsButton from "../../images/settings_button.png";
+import addButton from "../../images/workbook/add_button.png";
+import settingsButton from "../../images/workbook/settings_button.png";
 
 const WorkbookHeader = (props) => {
     return (
