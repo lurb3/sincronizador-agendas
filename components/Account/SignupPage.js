@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { View, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, ScrollView, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { Link } from "react-router-native";
 
 import * as AccountStyle from "../Styles/AccountStyles";
@@ -77,7 +77,7 @@ const SignupPage = (props) => {
     }
 
     return (
-        <View style={styles.wrapper}>
+        <ScrollView contentContainerStyle={styles.wrapper}>
             <View>
                 <TouchableOpacity style={{alignSelf:'flex-start', padding: 15}} activeOpacity={0.7}>
                     <Link to="/" style={{paddingTop:0}}>
@@ -128,7 +128,7 @@ const SignupPage = (props) => {
                     </Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     );
 }
 

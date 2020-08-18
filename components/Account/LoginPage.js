@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { View, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, ScrollView, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { Link } from "react-router-native";
 
 import * as AccountStyle from "../Styles/AccountStyles";
@@ -69,6 +69,7 @@ const LoginPage = (props) => {
           })
             .then(r => r.json())
             .then(data => {
+                console.log(data.data.authUser.status);
                 if(data.data.authUser.status == 'authenticated') {
                     props.history.push('/workbook')
                 }
@@ -76,7 +77,7 @@ const LoginPage = (props) => {
     }
 
     return (
-        <View style={styles.wrapper}>
+        <ScrollView contentContainerStyle={styles.wrapper}>
             <View>
                 <Text style={styles.title}> Workbook App </Text>
                 <Text style={styles.subtitle}>Sign in to workbook </Text>
@@ -111,7 +112,7 @@ const LoginPage = (props) => {
                     Sign up
                 </Text>
             </Link>
-        </View>
+        </ScrollView>
     );
 }
 

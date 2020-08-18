@@ -32,7 +32,7 @@ const WorkbookHeader = (props) => {
                 </Text>
             </Link>
             <View style={styles.header}>
-                <Text style={styles.workbookFontSize}>
+                <Text style={{fontSize:20}}>
                     Workbook
                 </Text>
                 <View style={styles.headerIconWrapper}>   

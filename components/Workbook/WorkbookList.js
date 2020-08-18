@@ -56,7 +56,7 @@ const WorkbookList = (props) => {
             
             <View style={styles.listNewItemText}>
                 <TouchableOpacity>
-                    <Text style={{color: "#0068C8", fontSize: 20}}>
+                    <Text style={{color: "#0068C8", fontSize: 15}}>
                         Criar novo workbook
                     </Text>
                 </TouchableOpacity>

@@ -1,5 +1,5 @@
 export const workbookFontSize = {
-    fontSize: 20
+    fontSize: 15
 }
 
 export const headerWrapper = {
