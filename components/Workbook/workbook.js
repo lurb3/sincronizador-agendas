@@ -32,7 +32,7 @@ const Workbook = (props) => {
                   'Content-Type': 'application/json',
                   'Accept': 'application/json',
                 },
-                body: JSON.stringify({query: `{getWorkbooks (user_id: "${userId}") {id,name}}`})
+                body: JSON.stringify({query: `{getWorkbooks (user_id: "${userId}") {id, name, date, timezone}}`})
             })
             .then(r => r.json())
             .then(data => {

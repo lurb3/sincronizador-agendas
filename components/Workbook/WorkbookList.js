@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import moment from 'moment';
 
 import * as WorkbookStyles from "../Styles/WorkbookStyles";
 
@@ -34,14 +35,19 @@ const WorkbookList = (props) => {
                 data !== '' ?
                     data.map((item, index) => {
                             return(
-                                <View style={styles.listItem} key={ index }>
-                                    <Image
-                                        source={bookIcon}
-                                        style={{marginRight: 10}}
-                                    />
-                                    <TouchableOpacity>
-                                        <Text style={styles.workbookFontSize}>{ item.name }</Text>
-                                    </TouchableOpacity>
+                                <View key={ index }>
+                                    <View style={{marginBottom:5}}>
+                                        <Text>{ moment.unix(`${item.date}`).format("MM/DD/YYYY h:m:s") }</Text>
+                                    </View>
+                                    <View style={styles.listItem}>
+                                        <Image
+                                            source={bookIcon}
+                                            style={{marginRight: 10}}
+                                        />
+                                        <TouchableOpacity>
+                                            <Text style={styles.workbookFontSize}>{ item.name }</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             )
                     })
