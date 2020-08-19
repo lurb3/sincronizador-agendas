@@ -12,6 +12,7 @@ const Workbook = (props) => {
     const [workbookData, setWorkbookData] = useState('');
 
     useEffect(() => {
+        console.log(props.role)
         fetch('http://192.168.1.6:4000/graphql', {
             method: 'POST',
             headers: {
@@ -53,7 +54,8 @@ const Workbook = (props) => {
 const mapStateToProps = (state) => ({
     user: state.user,
     email: state.email,
-    password: state.password
+    password: state.password,
+    role: state.role
 })
 
 export default connect(mapStateToProps)(Workbook);

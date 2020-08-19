@@ -13,6 +13,7 @@ let schema = buildSchema(`
         name: String
         password: String
         status: String
+        role: String
     }
     type Workbook {
         id: String
@@ -49,7 +50,8 @@ const root = {
         let verifyPassword = passwordHash.verify(args.password, data[0].password);
 
         if (verifyPassword) {
-            return {status: "authenticated"}
+            console.log(data)
+            return {status: "authenticated", role: data[0].role}
         } else {
             return {status: "Wrong Password"}
         }

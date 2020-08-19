@@ -45,6 +45,11 @@ const LoginPage = (props) => {
                     type: type,
                     payload: {password: input.nativeEvent.text}
                 }
+            case 'UPDATE_ROLE' :
+                return {
+                    type: type,
+                    payload: {role: input}
+                }
         }
     }
 
@@ -64,13 +69,13 @@ const LoginPage = (props) => {
               'Accept': 'application/json',
             },
             body: JSON.stringify({query: `{authUser(user:"${props.user}", password:"${props.password}") {
-                status
+                status, role
               }}`})
           })
             .then(r => r.json())
             .then(data => {
-                console.log(data.data.authUser.status);
                 if(data.data.authUser.status == 'authenticated') {
+                    props.dispatch(updateUserInfo(data.data.authUser.role, 'UPDATE_ROLE'))
                     props.history.push('/workbook')
                 }
             });
@@ -119,7 +124,8 @@ const LoginPage = (props) => {
 const mapStateToProps = (state) => ({
     user: state.user,
     name: state.name,
-    password: state.password
+    password: state.password,
+    role: state.role
 })
 
 export default connect(mapStateToProps)(LoginPage);

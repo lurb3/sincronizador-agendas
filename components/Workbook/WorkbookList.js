@@ -37,7 +37,7 @@ const WorkbookList = (props) => {
                             return(
                                 <View key={ index }>
                                     <View style={{marginBottom:5}}>
-                                        <Text>{ moment.unix(`${item.date}`).format("MM/DD/YYYY h:m:s") }</Text>
+                                        <Text>{ moment.unix(`${item.date}`).format("MM/DD/YYYY H:m") }</Text>
                                     </View>
                                     <View style={styles.listItem}>
                                         <Image

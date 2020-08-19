@@ -21,7 +21,8 @@ const client = new ApolloClient({
 const initialState = {
 	user: '',
 	name: '',
-	password: ''
+	password: '',
+	role: ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -40,6 +41,11 @@ const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				password: action.payload.password 
+			}
+		case('UPDATE_ROLE'):
+			return {
+				...state,
+				role: action.payload.role 
 			}
 		default:
 			return state;
