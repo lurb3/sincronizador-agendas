@@ -17,8 +17,8 @@ let schema = buildSchema(`
     type Workbook {
         id: String
         name: String
-        task_id: String
-        user_id: String
+        date: String
+        timezone: String
     }
     type Query {
         getUserInfo(user: String) : User,
@@ -70,7 +70,7 @@ const root = {
         //queryDB(req, "insert into users SET ?", args).then(data => data)
     },
     deleteUser: (args, req) => queryDB(req, "delete from users where id = ?", [args.id]).then(data => data),
-    getWorkbooks: (args, req) => queryDB(req, "select * from workbooks where user_id = ?", [args.user_id]).then(data => data),
+    getWorkbooks: (args, req) => queryDB(req, "SELECT * FROM workbooks INNER JOIN user_workbooks ON workbooks.id = user_workbooks.workbook_id AND user_workbooks.user_id = ?", [args.user_id]).then(data => data),
 };
 
 let app = express();

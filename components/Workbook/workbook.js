@@ -12,7 +12,7 @@ const Workbook = (props) => {
     const [workbookData, setWorkbookData] = useState('');
 
     useEffect(() => {
-        fetch('http://192.168.1.16:4000/graphql', {
+        fetch('http://192.168.1.6:4000/graphql', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ const Workbook = (props) => {
 
     useEffect(() => {
         if(userId != '') {
-            fetch('http://192.168.1.16:4000/graphql', {
+            fetch('http://192.168.1.6:4000/graphql', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -40,10 +40,6 @@ const Workbook = (props) => {
             });
         }
     },[userId])
-
-    useEffect(() => {
-        //console.log('data', workbookData.data.getWorkbooks)
-    }, [workbookData])
 
     return (
         <View style={{position:"relative", height:"100%"}}>

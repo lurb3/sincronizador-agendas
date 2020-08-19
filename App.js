@@ -15,7 +15,7 @@ import SignupPage from "./components/Account/SignupPage";
 import Workbook from "./components/Workbook/Workbook";
 
 const client = new ApolloClient({
-	uri: 'http://192.168.1.9:4000/graphql'
+	uri: 'http://192.168.1.6:4000/graphql'
 });
 
 const initialState = {
