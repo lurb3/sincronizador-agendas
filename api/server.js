@@ -30,6 +30,8 @@ let schema = buildSchema(`
         updateUserInfo(id: Int, user: String, name: String, password: String) : Boolean
         createUser(user: String, name: String, password: String) : Boolean
         deleteUser(id: Int) : Boolean
+        createWorkbook(name: String, date: String, timezone: String) : Boolean
+        createWorkbookUser(user_id: String, workbook_id: String) : Boolean
     }
 `);
 
@@ -63,7 +65,7 @@ const root = {
         queryDB(req, "select user from users where user = ?", [args.user]).then(data => {
             if(data == '') {
                 args.password = passwordHash.generate(args.password);
-                queryDB(req, "insert into users SET ?", args).then(data => data)
+                queryDB(req, "insert into users set ?", args).then(data => data)
             } else {
                 return {data}
             }
@@ -72,7 +74,13 @@ const root = {
         //queryDB(req, "insert into users SET ?", args).then(data => data)
     },
     deleteUser: (args, req) => queryDB(req, "delete from users where id = ?", [args.id]).then(data => data),
-    getWorkbooks: (args, req) => queryDB(req, "SELECT * FROM workbooks INNER JOIN user_workbooks ON workbooks.id = user_workbooks.workbook_id AND user_workbooks.user_id = ?", [args.user_id]).then(data => data),
+    getWorkbooks: (args, req) => queryDB(req, "select * from workbooks INNER JOIN user_workbooks ON workbooks.id = user_workbooks.workbook_id AND user_workbooks.user_id = ?", [args.user_id]).then(data => data),
+    createWorkbook: (args, req) => {
+        queryDB(req, "insert into workbooks set ?", args).then(data => data)
+    },
+    createWorkbookUser: (args, req) => {
+        queryDB(req, "insert into user_workbooks set ?", args).then(data => console.log(data))
+    }
 };
 
 let app = express();

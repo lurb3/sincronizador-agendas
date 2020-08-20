@@ -36,7 +36,7 @@ const WorkbookHeader = (props) => {
                     Workbook
                 </Text>
                 <View style={styles.headerIconWrapper}>   
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{console.log("CLICKING")}}>
                         <Image
                             source={addButton}
                             style={{marginRight:20}}
