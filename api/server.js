@@ -22,6 +22,7 @@ let schema = buildSchema(`
         timezone: String
     }
     type Query {
+        getUsers : [User],
         getUserInfo(user: String) : User,
         authUser(user: String, password: String) : User
         getWorkbooks(user_id: String): [Workbook],
@@ -44,6 +45,7 @@ const queryDB = (req, sql, args) => new Promise((resolve, reject) => {
 });
 
 const root = {
+    getUsers: (args, req) => queryDB(req, "select id, user, role from users").then(data => data),
     authUser: (args, req) => queryDB(req, "select * from users where user = ?", [args.user]).then(data => {
         if(data == ''){
             return {status: "User does not exists"};
@@ -106,15 +108,3 @@ app.use('/graphql', graphqlHTTP({
 app.listen(4000);
 
 console.log('Running a GraphQL API server at localhost:4000/graphql');
-
-/*
-const express = require('express')
-const port = 3000;
-const app = express();
-
-app.get('/', (req, res) => { 
-    res.send('I am here'); console.log("sending")
-})
-
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
-*/

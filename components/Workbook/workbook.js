@@ -12,10 +12,11 @@ const Workbook = (props) => {
 
     const [userId, setUserId] = useState('');
     const [workbookData, setWorkbookData] = useState('');
+    const [showModal, setShowModal] = useState(true);
 
     useEffect(() => {
         console.log(props.role)
-        fetch('http://192.168.1.11:4000/graphql', {
+        fetch('http://192.168.1.15:4000/graphql', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -29,7 +30,7 @@ const Workbook = (props) => {
 
     useEffect(() => {
         if(userId != '') {
-            fetch('http://192.168.1.11:4000/graphql', {
+            fetch('http://192.168.1.15:4000/graphql', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -45,11 +46,19 @@ const Workbook = (props) => {
     },[userId])
 
     return (
-        <View style={{position:"relative", height:"100%"}}>
-            <WorkbookHeader/>
-            <WorkbookList data={workbookData != '' ? workbookData.data.getWorkbooks : ''}/>
-            <WorkbookModal/>
-            <WorkbookFooter/>
+        <View>
+            {
+                !showModal ?
+                    <View style={{position:"relative", minHeight:"100%"}}>
+                        <WorkbookHeader/>
+                        <WorkbookList data={workbookData != '' ? workbookData.data.getWorkbooks : ''}/>
+                        <WorkbookFooter/>
+                    </View>
+                :
+                    <View>
+                        <WorkbookModal/>
+                    </View>
+            }
         </View>
     );
 }
