@@ -26,7 +26,6 @@ let schema = buildSchema(`
         id: String
         name: String
         description: String
-        user_id: String
         workbook_id: String
     }
     type Query {
