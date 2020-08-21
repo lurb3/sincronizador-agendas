@@ -4,22 +4,23 @@ import { View, Text } from "react-native";
 
 const Workbook = (props) => {
 
-    useEffect(() => {/*
+    useEffect(() => {
         fetch('http://192.168.1.15:4000/graphql', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: JSON.stringify({query: `{getUserInfo(user: "${props.user}"){id}}`})
+            body: JSON.stringify({query: `{getTasks{id,name, description}}`})
           })
             .then(r => r.json())
-            .then(data => setUserId(data.data.getUserInfo.id));*/
+            .then(data => console.log(data));
+            console.log('ID -> ', props.location.workbook)
     },[])
 
     return (
         <View style={{position:"relative", height:"100%"}}>
-            Task List
+            <Text>Task List</Text>
         </View>
     );
 }

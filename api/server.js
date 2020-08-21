@@ -22,12 +22,20 @@ let schema = buildSchema(`
         hour: String
         timezone: String
     }
+    type task {
+        id: String
+        name: String
+        description: String
+        user_id: String
+        workbook_id: String
+    }
     type Query {
         getUsers : [User],
         getUserInfo(user: String) : User,
         authUser(user: String, password: String) : User,
         getWorkbook(name: String): Workbook,
         getWorkbooks(user_id: String): [Workbook],
+        getTasks : [task],
     }    
     type Mutation {
         updateUserInfo(id: Int, user: String, name: String, password: String) : Boolean
@@ -78,6 +86,8 @@ const root = {
         //queryDB(req, "insert into users SET ?", args).then(data => data)
     },
     deleteUser: (args, req) => queryDB(req, "delete from users where id = ?", [args.id]).then(data => data),
+
+    //Workbooks
     getWorkbook: (args, req) => queryDB(req, "select id from workbooks where name = ?", args.name).then(data=>data[0]),
     getWorkbooks: (args, req) => queryDB(req, "select * from workbooks INNER JOIN user_workbooks ON workbooks.id = user_workbooks.workbook_id AND user_workbooks.user_id = ?", [args.user_id]).then(data => data),
     createWorkbook: (args, req) => {
@@ -85,7 +95,10 @@ const root = {
     },
     createWorkbookUser: (args, req) => {
         queryDB(req, "insert into user_workbooks set ?", args).then(data => console.log(data))
-    }
+    },
+
+    //Tasks
+    getTasks: (args, req) => queryDB(req, "select * from tasks").then(data => data),
 };
 
 let app = express();

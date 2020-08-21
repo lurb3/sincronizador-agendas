@@ -35,8 +35,10 @@ const WorkbookList = (props) => {
             {
                 data !== '' ?
                     data.map((item, index) => {
+                        console.log(item.id)
                             return(
-                                <View key={ index } style={styles.itemsWrapper}>
+                                <TouchableOpacity key={ index } style={styles.itemsWrapper} onPress={ ()=>{
+                                    props.history.push({pathname: '/tasks', workbook: item.id}) }}>
                                     <TouchableOpacity>
                                         <Text style={styles.workbookFontSize}>{ item.name }</Text>
                                     </TouchableOpacity>
@@ -54,7 +56,7 @@ const WorkbookList = (props) => {
                                         />
                                         <Text>{ `${item.hour}` }</Text>
                                     </View>
-                                </View>
+                                </TouchableOpacity>
                             )
                     })
                 : <Text></Text>

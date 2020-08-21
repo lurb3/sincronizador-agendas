@@ -51,7 +51,7 @@ const Workbook = (props) => {
                 !showModal ?
                     <View style={{position:"relative", minHeight:"100%"}}>
                         <WorkbookHeader createWorkbook={ setShowModal } />
-                        <WorkbookList data={workbookData != '' ? workbookData.data.getWorkbooks : ''} createWorkbook={ setShowModal } />
+                        <WorkbookList data={workbookData != '' ? workbookData.data.getWorkbooks : ''} createWorkbook={ setShowModal } history={props.history} />
                         <WorkbookFooter/>
                     </View>
                 :

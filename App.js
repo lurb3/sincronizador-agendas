@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { View, Text, Button } from "react-native";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 import LoginPage from "./components/Account/LoginPage";
 import SignupPage from "./components/Account/SignupPage";
 import Workbook from "./components/Workbook/Workbook";
+import Tasks from "./components/Tasks/Tasks";
 
 const client = new ApolloClient({
 	uri: 'http://192.168.1.15:4000/graphql'
@@ -55,22 +56,25 @@ const reducer = (state = initialState, action) => {
 const store = createStore(reducer);
 
 export default function App() {
-  return (
-	  
-  <ApolloProvider client={client}>
-    <View
-    >
-		<Provider store={store}>
-			<NativeRouter>
-				<Route exact path="/" component={
-					() => <LoginPage history={ useHistory() } />
-				}/>
-				<Route exact path="/signup" component={ SignupPage }  />
-				<Route exact path="/workbook" component={ Workbook }  />
-			</NativeRouter>
-			
-		</Provider>
-    </View>
-  </ApolloProvider>
-  );
+	
+	const [getWorkbook, SetGetWorkbook] = useState('testinho')
+	return (
+		
+	<ApolloProvider client={client}>
+		<View
+		>
+			<Provider store={store}>
+				<NativeRouter>
+					<Route exact path="/" component={
+						() => <LoginPage history={ useHistory() } />
+					}/>
+					<Route exact path="/signup" component={ SignupPage }  />
+					<Route exact path="/workbook" component={ Workbook } history={ useHistory() } />
+					<Route exact path="/tasks" component={ Tasks }  />
+				</NativeRouter>
+				
+			</Provider>
+		</View>
+	</ApolloProvider>
+	);
 }
