@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { View, Text } from "react-native";
+import { View, ScrollView, TouchableOpacity, Text } from "react-native";
 
 const Workbook = (props) => {
+
+    const [data, setData] = useState('');
 
     useEffect(() => {
         fetch('http://192.168.1.15:4000/graphql', {
@@ -14,14 +16,41 @@ const Workbook = (props) => {
             body: JSON.stringify({query: `{getTasks{id,name, description}}`})
           })
             .then(r => r.json())
-            .then(data => console.log(data));
+            .then(data => setData(data.data.getTasks));
             console.log('ID -> ', props.location.workbook)
     },[])
 
     return (
-        <View style={{position:"relative", height:"100%"}}>
-            <Text>Task List</Text>
-        </View>
+        <ScrollView>
+            {
+                data !== '' ?
+                    data.map((item, index) => {
+                        console.log('item', item)
+                            
+                        return(
+                            <TouchableOpacity key={ index } onPress={()=>{
+                                props.history.push({pathname: '/tasks', workbook: item.id}) }}>
+                                <TouchableOpacity>
+                                    <Text>{ item.name }</Text>
+                                </TouchableOpacity>
+                                <View style={{display: "flex", flexDirection: "row", marginBottom:5}}>
+                                    <Text>{ `${item.description}` }</Text>
+                                    <Text>{ `${item.id}` }</Text>
+                                </View>
+                            </TouchableOpacity>
+                        )
+                    })
+                : <Text></Text>
+            }            
+            
+            <View>
+                <TouchableOpacity onPress={ () => props.createWorkbook(true) }>
+                    <Text style={{color: "#0068C8", fontSize: 15}}>
+                        Create new agenda
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        </ScrollView>
     );
 }
 
