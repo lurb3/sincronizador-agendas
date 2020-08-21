@@ -12,7 +12,7 @@ const Workbook = (props) => {
 
     const [userId, setUserId] = useState('');
     const [workbookData, setWorkbookData] = useState('');
-    const [showModal, setShowModal] = useState(true);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         console.log(props.role)
@@ -36,7 +36,7 @@ const Workbook = (props) => {
                   'Content-Type': 'application/json',
                   'Accept': 'application/json',
                 },
-                body: JSON.stringify({query: `{getWorkbooks (user_id: "${userId}") {id, name, date, timezone}}`})
+                body: JSON.stringify({query: `{getWorkbooks (user_id: "${userId}") {id, name, date, hour, timezone}}`})
             })
             .then(r => r.json())
             .then(data => {
@@ -50,13 +50,13 @@ const Workbook = (props) => {
             {
                 !showModal ?
                     <View style={{position:"relative", minHeight:"100%"}}>
-                        <WorkbookHeader/>
-                        <WorkbookList data={workbookData != '' ? workbookData.data.getWorkbooks : ''}/>
+                        <WorkbookHeader createWorkbook={ setShowModal } />
+                        <WorkbookList data={workbookData != '' ? workbookData.data.getWorkbooks : ''} createWorkbook={ setShowModal } />
                         <WorkbookFooter/>
                     </View>
                 :
                     <View>
-                        <WorkbookModal/>
+                        <WorkbookModal createWorkbook={ setShowModal }/>
                     </View>
             }
         </View>

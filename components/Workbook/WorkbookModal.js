@@ -8,9 +8,9 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { Link } from "react-router-native";
 
 import * as WorkbookStyles from "../Styles/WorkbookStyles";
-import CloseBtn from "../../images/close.png";
-import CalendarIcon from "../../images/workbook/calendar_icon.png";
-import TimeIcon from "../../images/workbook/time_icon.png";
+import CloseBtn from "../../images/workbook/close.png";
+import CalendarIcon from "../../images/calendar_icon.png";
+import TimeIcon from "../../images/time_icon.png";
 import UsersIcon from "../../images/workbook/users_icon.png";
 
 const WorkbookModal = (props) => {
@@ -32,49 +32,75 @@ const WorkbookModal = (props) => {
     }
 
     const newWorkbook = () => {
+        
         fetch('http://192.168.1.15:4000/graphql', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: JSON.stringify({query: `mutation {createWorkbook(name:"${workbookName}", date:"${date}", timezone:"${userTimezone}")}`})
+            body: JSON.stringify({query: `mutation {createWorkbook(name:"${workbookName}", date:"${displayDate}", hour:"${displayHour}" timezone:"${userTimezone}")}`})
         })
         .then(r => r.json())
         .then(data => {
+        
             fetch('http://192.168.1.15:4000/graphql', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                   'Accept': 'application/json',
                 },
-                body: JSON.stringify({query: `mutation {createWorkbookUser(user_id:"2", workbook_id:"2")}`})
+                body: JSON.stringify({query: `{getWorkbook(name: "${workbookName}"){id}}`})
             })
             .then(r => r.json())
             .then(data => {
-                console.log(data)
-            });
-        });
+                console.log(data);
+                let workbookId = data.data.getWorkbook.id;
+
+                countries.map((item, index) => {
+                    fetch('http://192.168.1.15:4000/graphql', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'Accept': 'application/json',
+                        },
+                        body: JSON.stringify({query: `{getUserInfo(user: "${item}"){id}}`})
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        fetch('http://192.168.1.15:4000/graphql', {
+                            method: 'POST',
+                            headers: {
+                              'Content-Type': 'application/json',
+                              'Accept': 'application/json',
+                            },
+                            body: JSON.stringify({query: `mutation {createWorkbookUser(user_id:"${data.data.getUserInfo.id}", workbook_id:"${workbookId}")}`})
+                        })
+                        
+                    })
+                })
+            })
+        })
     }
 
     const fillAppUsers = () => {
+        // Fetching all users and filling dropdown array with corresponding objects
         fetch('http://192.168.1.15:4000/graphql', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', },
             body: JSON.stringify({query: `{getUsers {id, user, role}}`})
         })
         .then(r => r.json())
         .then(data => {
             let tempArray = [];
+
             data.data.getUsers.map((item, index)=>{
                 let user = {};
                 user['label'] = item.user;
                 user['value'] = item.user;
                 tempArray.push(user)
             })
+
             setAppUsers(tempArray);
         });
     }
@@ -116,10 +142,12 @@ const WorkbookModal = (props) => {
     return (
         <ScrollView style={{ display: "flex", flexDirection:"column", minHeight: "100%", width: "100%", backgroundColor: "white"}}>
             <View style={{padding:20, paddingTop:80, paddingBottom: 80, backgroundColor: "#4DA4F3"}}>
-                <Image
-                    source={ CloseBtn }
-                    style={{height:20, width:20, position:"absolute", right:30, top:50}}
-                />
+                <TouchableOpacity onPress={ () => props.createWorkbook(false) } style={{position:"absolute", right:30, top:50, padding:10}}>
+                    <Image
+                        source={ CloseBtn }
+                        style={{ height:20, width:20 }}
+                    />
+                </TouchableOpacity>
                 
                 <Text style={{color:"white", alignSelf:"center", marginTop:30, marginBottom:10, fontSize: 20, fontWeight: "bold"}}>New Agenda</Text>
                 <TextInput
@@ -155,7 +183,7 @@ const WorkbookModal = (props) => {
                         />
                         <Text style={{fontSize:15, fontWeight:"bold", alignSelf:"center"}}>Time</Text>
                     </View>
-                    <Text style={{fontSize:15, fontWeight:"bold"}} onPress={showDatepicker}>{ `${displayHour}` }</Text>
+                    <Text style={{fontSize:15, fontWeight:"bold"}} onPress={showTimepicker}>{ `${displayHour}` }</Text>
                 </View>
                 <View style={{display: "flex", flexDirection: "row", justifyContent:"space-between"}}>
                     <View style={{alignSelf: "center", display:"flex", flexDirection:"row", flexGrow: 1}}>

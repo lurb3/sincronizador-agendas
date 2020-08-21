@@ -4,7 +4,8 @@ import moment from 'moment';
 
 import * as WorkbookStyles from "../Styles/WorkbookStyles";
 
-import bookIcon from "../../images/workbook/book_icon.png";
+import CalendarIcon from "../../images/calendar_icon.png";
+import TimeIcon from "../../images/time_icon.png";
 
 const WorkbookList = (props) => {
 
@@ -18,8 +19,8 @@ const WorkbookList = (props) => {
         listWrapper: {
           ...WorkbookStyles.listWrapper,
         },
-        listItem: {
-          ...WorkbookStyles.listItem,
+        itemsWrapper: {
+          ...WorkbookStyles.itemsWrapper,
         },
         workbookFontSize: {
           ...WorkbookStyles.workbookFontSize,
@@ -35,18 +36,23 @@ const WorkbookList = (props) => {
                 data !== '' ?
                     data.map((item, index) => {
                             return(
-                                <View key={ index }>
-                                    <View style={{marginBottom:5}}>
-                                        <Text>{ moment.unix(`${item.date}`).format("MM/DD/YYYY H:m") }</Text>
-                                    </View>
-                                    <View style={styles.listItem}>
+                                <View key={ index } style={styles.itemsWrapper}>
+                                    <TouchableOpacity>
+                                        <Text style={styles.workbookFontSize}>{ item.name }</Text>
+                                    </TouchableOpacity>
+                                    <View style={{display: "flex", flexDirection: "row", marginBottom:5}}>
                                         <Image
-                                            source={bookIcon}
-                                            style={{marginRight: 10}}
+                                            source={ CalendarIcon }
+                                            style={{width:20, height:20, marginRight:5}}
                                         />
-                                        <TouchableOpacity>
-                                            <Text style={styles.workbookFontSize}>{ item.name }</Text>
-                                        </TouchableOpacity>
+                                        <Text>{ `${item.date}` }</Text>
+
+                                        
+                                        <Image
+                                            source={ TimeIcon }
+                                            style={{width:20, height:20, marginLeft:5, marginRight:5}}
+                                        />
+                                        <Text>{ `${item.hour}` }</Text>
                                     </View>
                                 </View>
                             )
@@ -55,9 +61,9 @@ const WorkbookList = (props) => {
             }            
             
             <View style={styles.listNewItemText}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={ () => props.createWorkbook(true) }>
                     <Text style={{color: "#0068C8", fontSize: 15}}>
-                        Criar novo workbook
+                        Create new agenda
                     </Text>
                 </TouchableOpacity>
             </View>

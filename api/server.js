@@ -19,19 +19,21 @@ let schema = buildSchema(`
         id: String
         name: String
         date: String
+        hour: String
         timezone: String
     }
     type Query {
         getUsers : [User],
         getUserInfo(user: String) : User,
-        authUser(user: String, password: String) : User
+        authUser(user: String, password: String) : User,
+        getWorkbook(name: String): Workbook,
         getWorkbooks(user_id: String): [Workbook],
     }    
     type Mutation {
         updateUserInfo(id: Int, user: String, name: String, password: String) : Boolean
         createUser(user: String, name: String, password: String) : Boolean
         deleteUser(id: Int) : Boolean
-        createWorkbook(name: String, date: String, timezone: String) : Boolean
+        createWorkbook(name: String, date: String, hour:String, timezone: String) : Boolean
         createWorkbookUser(user_id: String, workbook_id: String) : Boolean
     }
 `);
@@ -76,6 +78,7 @@ const root = {
         //queryDB(req, "insert into users SET ?", args).then(data => data)
     },
     deleteUser: (args, req) => queryDB(req, "delete from users where id = ?", [args.id]).then(data => data),
+    getWorkbook: (args, req) => queryDB(req, "select id from workbooks where name = ?", args.name).then(data=>data[0]),
     getWorkbooks: (args, req) => queryDB(req, "select * from workbooks INNER JOIN user_workbooks ON workbooks.id = user_workbooks.workbook_id AND user_workbooks.user_id = ?", [args.user_id]).then(data => data),
     createWorkbook: (args, req) => {
         queryDB(req, "insert into workbooks set ?", args).then(data => data)

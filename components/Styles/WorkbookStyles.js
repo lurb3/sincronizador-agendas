@@ -29,10 +29,12 @@ export const listWrapper = {
     flexDirection: "column"
 }
 
-export const listItem = {
-    display: "flex",
-    flexDirection: "row",
-    marginBottom: 20
+export const itemsWrapper = {
+    marginBottom: 15,
+    padding:10,
+    borderRadius:15,
+    borderWidth: 1,
+    borderColor: "rgba(0,0,0,0.19)",
 }
 
 export const listNewItemText = {
