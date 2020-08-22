@@ -35,13 +35,11 @@ const WorkbookList = (props) => {
             {
                 data !== '' ?
                     data.map((item, index) => {
-                        console.log(item.id)
+                        console.log(item)
                             return(
                                 <TouchableOpacity key={ index } style={styles.itemsWrapper} onPress={ ()=>{
                                     props.history.push({pathname: '/tasks', workbook: item.id}) }}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.workbookFontSize}>{ item.name }</Text>
-                                    </TouchableOpacity>
+                                    <Text style={styles.workbookFontSize}>{ item.name }</Text>
                                     <View style={{display: "flex", flexDirection: "row", marginBottom:5}}>
                                         <Image
                                             source={ CalendarIcon }
