@@ -10,7 +10,7 @@ import TasksModal from "./TasksModal";
 const Workbook = (props) => {
 
     const [data, setData] = useState('');
-    const [showModal, setShowModal] = useState(true);
+    const [showModal, setShowModal] = useState(false);
 
     const styles = StyleSheet.create({
         listWrapper: {

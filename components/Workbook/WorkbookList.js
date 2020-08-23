@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet, Vibration } from "react-native";
 import moment from 'moment';
 
 import * as WorkbookStyles from "../Styles/WorkbookStyles";
@@ -35,10 +35,16 @@ const WorkbookList = (props) => {
             {
                 data !== '' ?
                     data.map((item, index) => {
-                        console.log(item)
                             return(
-                                <TouchableOpacity key={ index } style={styles.itemsWrapper} onPress={ ()=>{
-                                    props.history.push({pathname: '/tasks', workbook: item.id}) }}>
+                                <TouchableOpacity 
+                                    key={ index } 
+                                    style={styles.itemsWrapper} 
+                                    onPress={()=>{
+                                        props.history.push({pathname: '/tasks', workbook: item.id});
+                                        Vibration.vibrate(10)
+                                    }}
+                                    onLongPress={()=>{Vibration.vibrate(50)}}
+                                >
                                     <Text style={styles.workbookFontSize}>{ item.name }</Text>
                                     <View style={{display: "flex", flexDirection: "row", marginBottom:5}}>
                                         <Image
