@@ -42,6 +42,7 @@ let schema = buildSchema(`
         deleteUser(id: Int) : Boolean
         createWorkbook(name: String, date: String, hour:String, timezone: String) : Boolean
         createWorkbookUser(user_id: String, workbook_id: String) : Boolean
+        createTask(name: String, description: String, workbook_id: String, status: String) : Boolean
     }
 `);
 
@@ -93,11 +94,14 @@ const root = {
         queryDB(req, "insert into workbooks set ?", args).then(data => data)
     },
     createWorkbookUser: (args, req) => {
-        queryDB(req, "insert into user_workbooks set ?", args).then(data => console.log(data))
+        queryDB(req, "insert into user_workbooks set ?", args).then(data => data)
     },
 
     //Tasks
     getTasks: (args, req) => queryDB(req, "select * from tasks where workbook_id = ?", args.workbook_id).then(data => data),
+    createTask: (args, req) => {
+        queryDB(req, "insert into tasks set ?", args).then(data => console.log(data))
+    },
 };
 
 let app = express();

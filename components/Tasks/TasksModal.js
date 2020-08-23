@@ -15,14 +15,23 @@ import UsersIcon from "../../images/workbook/users_icon.png";
 
 const TasksModal = (props) => {
 
-    const [workbookName, setWorkbookName] = useState('');
-    const [userTimezone, setUserTimezone] = useState('');
+    const [taskTitle, setTaskTitle] = useState('');
+    const [taskDescription, setTaskDescription] = useState('');
+    const [taskStatus, setTaskStatus] = useState('');
 
-    const handleWorkbookName = (e) => {
-        setWorkbookName(e.nativeEvent.text);
+    const handleTaskTitle = (e) => {
+        setTaskTitle(e.nativeEvent.text);
     }
 
-    const newWorkbook = () => {
+    const handleTaskDescription = (e) => {
+        setTaskDescription(e.nativeEvent.text);
+    }
+
+    const handleTaskStatus = (e) => {
+        setTaskStatus(e.nativeEvent.text);
+    }
+
+    const newTask = () => {
         
         fetch('http://192.168.1.16:4000/graphql', {
             method: 'POST',
@@ -30,7 +39,7 @@ const TasksModal = (props) => {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            //body: JSON.stringify({query: `mutation {createWorkbook(name:"${workbookName}", date:"${displayDate}", hour:"${displayHour}" timezone:"${userTimezone}")}`})
+            body: JSON.stringify({query: `mutation {createTask(name:"Teste", description:"descricao", workbook_id:"50" status:"open")}`})
         })
         .then(r => r.json())
     }
@@ -47,7 +56,7 @@ const TasksModal = (props) => {
                 
                 <Text style={{color:"white", alignSelf:"center", marginTop:30, marginBottom:10, fontSize: 20, fontWeight: "bold"}}>Task title</Text>
                 <TextInput
-                    onChange={ handleWorkbookName }
+                    onChange={ handleTaskTitle }
                     style={{backgroundColor: "white",
                     height: 40,
                     marginBottom: 20,
@@ -63,7 +72,7 @@ const TasksModal = (props) => {
                 <TextInput
                     multiline = {true}
                     numberOfLines = {3}
-                    onChange={ handleWorkbookName }
+                    onChange={ handleTaskDescription }
                     style={{backgroundColor: "white",
                     marginBottom: 20,
                     padding: 10,
@@ -74,7 +83,7 @@ const TasksModal = (props) => {
                     elevation: 4,}}
                 />
 
-                <TouchableOpacity onPress={newWorkbook} style={{alignItems: "center", backgroundColor: "#0068C8", padding: 15, marginTop:50}}>
+                <TouchableOpacity onPress={ newTask } style={{alignItems: "center", backgroundColor: "#0068C8", padding: 15, marginTop:50}}>
                     <Text style={{color:"white"}}>Create new task</Text>
                 </TouchableOpacity>
             </View>

@@ -24,7 +24,6 @@ const TasksList = (props) => {
                                 <Text style={ props.styles.workbookFontSize }>{ item.name }</Text>
                                 <View style={{display: "flex", flexDirection: "row", marginBottom:5}}>
                                     <Text>{ `${item.description}` }</Text>
-                                    <Text>{ `${item.id}` }</Text>
                                 </View>
                             </TouchableOpacity>
                         )
