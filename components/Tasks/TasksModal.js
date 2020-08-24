@@ -33,13 +33,13 @@ const TasksModal = (props) => {
 
     const newTask = () => {
         
-        fetch('http://192.168.1.16:4000/graphql', {
+        fetch('http://192.168.0.26:4000/graphql', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
             },
-            body: JSON.stringify({query: `mutation {createTask(name:"Teste", description:"descricao", workbook_id:"50" status:"open")}`})
+            body: JSON.stringify({query: `mutation {createTask(name:"${taskTitle}", description:"${taskDescription}", workbook_id:"${props.workbookid}" status:"open")}`})
         })
         .then(r => r.json())
     }

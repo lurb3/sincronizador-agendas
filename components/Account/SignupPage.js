@@ -63,7 +63,7 @@ const SignupPage = (props) => {
     }
 
     const handleSubmit = (e) => {
-        fetch('http://192.168.1.16:4000/graphql', {
+        fetch('http://192.168.0.26:4000/graphql', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

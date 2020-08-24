@@ -28,7 +28,7 @@ const Workbook = (props) => {
     })
 
     useEffect(() => {
-        fetch('http://192.168.1.16:4000/graphql', {
+        fetch('http://192.168.0.26:4000/graphql', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -44,13 +44,13 @@ const Workbook = (props) => {
         <View>
         {
             !showModal ?
-                <View>
+                <ScrollView style={{position:"relative", minHeight:"100%"}}>
                     <TasksHeader createNewTask={ setShowModal }/>
                     <TasksList styles={ styles } data={ data } createNewTask={ setShowModal }/>
-                </View>
+                </ScrollView>
             :
                 <View>
-                    <TasksModal createNewTask={ setShowModal }/>
+                    <TasksModal createNewTask={ setShowModal } workbookid={props.location.workbook}/>
                 </View>
         }
         </View>
