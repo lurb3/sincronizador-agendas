@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { Calendar } from 'react-native-calendars';
 
 import WorkbookHeader from "./WorkbookHeader.js";
@@ -49,11 +49,11 @@ const Workbook = (props) => {
         <View>
             {
                 !showModal ?
-                    <View style={{position:"relative", minHeight:"100%"}}>
+                    <ScrollView style={{position:"relative", minHeight:"100%"}}>
                         <WorkbookHeader createWorkbook={ setShowModal } />
                         <WorkbookList data={workbookData != '' ? workbookData.data.getWorkbooks : ''} createWorkbook={ setShowModal } history={props.history} />
                         <WorkbookFooter/>
-                    </View>
+                    </ScrollView>
                 :
                     <View>
                         <WorkbookModal createWorkbook={ setShowModal }/>

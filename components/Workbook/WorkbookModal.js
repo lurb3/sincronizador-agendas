@@ -33,6 +33,7 @@ const WorkbookModal = (props) => {
 
     const newWorkbook = () => {
         
+        // Create new agenda and then select agenda's id to match it with the selected users
         fetch('http://192.168.0.26:4000/graphql', {
             method: 'POST',
             headers: {
