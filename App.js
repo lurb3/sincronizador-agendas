@@ -68,7 +68,7 @@ export default function App() {
 					<Route exact path="/" component={
 						() => <LoginPage history={ useHistory() } />
 					}/>
-					<Route exact path="/signup" component={ SignupPage }  />
+					<Route exact path="/signup" component={ SignupPage } history={ useHistory() }  />
 					<Route exact path="/workbook" component={ Workbook } history={ useHistory() } />
 					<Route exact path="/tasks" component={ Tasks }  />
 				</NativeRouter>

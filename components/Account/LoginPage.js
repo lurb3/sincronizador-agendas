@@ -7,6 +7,8 @@ import * as AccountStyle from "../Styles/AccountStyles";
 
 const LoginPage = (props) => {
 
+    const [userFeedback, setUserFeedback] = useState('');
+
     const styles = StyleSheet.create({
         title: {
           ...AccountStyle.title,
@@ -38,12 +40,12 @@ const LoginPage = (props) => {
             case 'UPDATE_USER' :
                 return {
                     type: type,
-                    payload: {user: input.nativeEvent.text}
+                    payload: {user: input}
                 }
             case 'UPDATE_PASSWORD' :
                 return {
                     type: type,
-                    payload: {password: input.nativeEvent.text}
+                    payload: {password: input}
                 }
             case 'UPDATE_ROLE' :
                 return {
@@ -54,11 +56,11 @@ const LoginPage = (props) => {
     }
 
     const handleUser = (e) => {
-        props.dispatch(updateUserInfo(e, 'UPDATE_USER'))
+        props.dispatch(updateUserInfo(e.nativeEvent.text, 'UPDATE_USER'))
     }
 
     const handlePassword = (e) => {
-        props.dispatch(updateUserInfo(e, 'UPDATE_PASSWORD'))
+        props.dispatch(updateUserInfo(e.nativeEvent.text, 'UPDATE_PASSWORD'))
     }
 
     const handleSubmit = (e) => {
@@ -75,11 +77,20 @@ const LoginPage = (props) => {
             .then(r => r.json())
             .then(data => {
                 if(data.data.authUser.status == 'authenticated') {
+                    setUserFeedback("")
                     props.dispatch(updateUserInfo(data.data.authUser.role, 'UPDATE_ROLE'))
                     props.history.push('/workbook')
+                } else {
+                    setUserFeedback("Wrong credentials")
                 }
             });
     }
+
+    useEffect(() => {
+        props.dispatch(updateUserInfo('', 'UPDATE_USER'))
+        props.dispatch(updateUserInfo('', 'UPDATE_PASSWORD'))
+        props.dispatch(updateUserInfo('', 'UPDATE_ROLE'))
+    }, [])
 
     return (
         <ScrollView contentContainerStyle={styles.wrapper}>
@@ -111,8 +122,10 @@ const LoginPage = (props) => {
                     Sign in
                 </Text>
             </TouchableOpacity>
+
+            <Text style={{textAlign:"right", color:"red"}}>{ userFeedback }</Text>
             
-            <Link to="/signup">
+            <Link component={TouchableOpacity} to="/signup">
                 <Text style={ styles.signupLabel }>
                     Sign up
                 </Text>

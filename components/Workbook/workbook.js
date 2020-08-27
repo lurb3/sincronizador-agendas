@@ -15,17 +15,18 @@ const Workbook = (props) => {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        console.log(props.role)
-        fetch('http://192.168.0.26:4000/graphql', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-            body: JSON.stringify({query: `{getUserInfo(user: "${props.user}"){id}}`})
-          })
+            fetch('http://192.168.0.26:4000/graphql', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                },
+                body: JSON.stringify({query: `{getUserInfo(user: "${props.user}"){id}}`})
+            })
             .then(r => r.json())
-            .then(data => setUserId(data.data.getUserInfo.id));
+            .then(data => {
+                setUserId(data.data.getUserInfo.id);
+            });
     },[])
 
     useEffect(() => {
@@ -46,17 +47,23 @@ const Workbook = (props) => {
     },[userId])
 
     return (
-        <View>
+        <View style={{minHeight:"100%", position:"relative"}}>
             {
                 !showModal ?
                     <ScrollView style={{position:"relative", minHeight:"100%"}}>
-                        <WorkbookHeader createWorkbook={ setShowModal } />
-                        <WorkbookList data={workbookData != '' ? workbookData.data.getWorkbooks : ''} createWorkbook={ setShowModal } history={props.history} />
-                        <WorkbookFooter/>
+                        <WorkbookHeader 
+                            createWorkbook={ setShowModal } 
+                        />
+                        <WorkbookList 
+                            data={workbookData != '' ? workbookData.data.getWorkbooks : ''} 
+                            createWorkbook={ setShowModal } 
+                            history={props.history}
+                        />
+                        {/*<WorkbookFooter/>*/}
                     </ScrollView>
                 :
                     <View>
-                        <WorkbookModal createWorkbook={ setShowModal }/>
+                        <WorkbookModal createWorkbook={ setShowModal } history={props.history} />
                     </View>
             }
         </View>

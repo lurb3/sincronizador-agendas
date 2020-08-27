@@ -37,15 +37,17 @@ const Workbook = (props) => {
             body: JSON.stringify({query: `{getTasks(workbook_id: "${props.location.workbook}"){id,name, description}}`})
           })
             .then(r => r.json())
-            .then(data => setData(data.data.getTasks));
-    },[])
+            .then(data => {
+              setData(data.data.getTasks);
+            });
+    }, [])
 
     return (
         <View>
         {
             !showModal ?
                 <ScrollView style={{position:"relative", minHeight:"100%"}}>
-                    <TasksHeader createNewTask={ setShowModal }/>
+                    <TasksHeader createNewTask={ setShowModal } />
                     <TasksList styles={ styles } data={ data } createNewTask={ setShowModal }/>
                 </ScrollView>
             :

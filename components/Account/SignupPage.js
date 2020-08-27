@@ -35,31 +35,31 @@ const SignupPage = (props) => {
             case 'UPDATE_USER' :
                 return {
                     type: type,
-                    payload: {user: input.nativeEvent.text}
+                    payload: {user: input}
                 }
             case 'UPDATE_NAME' :
                 return {
                     type: type,
-                    payload: {name: input.nativeEvent.text}
+                    payload: {name: input}
                 }
             case 'UPDATE_PASSWORD' :
                 return {
                     type: type,
-                    payload: {password: input.nativeEvent.text}
+                    payload: {password: input}
                 }
         }
     }
 
     const handleUser = (e) => {
-        props.dispatch(updateUserInfo(e, 'UPDATE_USER'))
+        props.dispatch(updateUserInfo(e.nativeEvent.text, 'UPDATE_USER'))
     }
 
     const handleName = (e) => {
-        props.dispatch(updateUserInfo(e, 'UPDATE_NAME'))
+        props.dispatch(updateUserInfo(e.nativeEvent.text, 'UPDATE_NAME'))
     }
 
     const handlePassword = (e) => {
-        props.dispatch(updateUserInfo(e, 'UPDATE_PASSWORD'))
+        props.dispatch(updateUserInfo(e.nativeEvent.text, 'UPDATE_PASSWORD'))
     }
 
     const handleSubmit = (e) => {
@@ -72,19 +72,24 @@ const SignupPage = (props) => {
             body: JSON.stringify({query: `mutation {createUser(user: "${props.user}", name: "${props.name}", password: "${props.password}")}`})
         })
         .then(r => r.json())
-        .then(data => console.log('data returned:', data));
+        .then(data => props.history.push('/'));
     }
+
+
+    useEffect(() => {
+        props.dispatch(updateUserInfo('', 'UPDATE_USER'))
+        props.dispatch(updateUserInfo('', 'UPDATE_NAME'))
+        props.dispatch(updateUserInfo('', 'UPDATE_PASSWORD'))
+    }, [])
 
     return (
         <ScrollView contentContainerStyle={styles.wrapper}>
             <View>
-                <TouchableOpacity style={{alignSelf:'flex-start', padding: 15}} activeOpacity={0.7}>
-                    <Link to="/" style={{paddingTop:0}}>
-                        <Text>
-                            LOGIN PAGE
-                        </Text>
-                    </Link>
-                </TouchableOpacity>
+                <Link component={TouchableOpacity} to="/">
+                    <Text>
+                        LOGIN PAGE
+                    </Text>
+                </Link>
             </View>
             <View>
 

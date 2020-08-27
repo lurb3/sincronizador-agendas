@@ -26,7 +26,8 @@ export const headerIconWrapper = {
 export const listWrapper = {
     padding: 20,
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    minHeight: "100%",
 }
 
 export const itemsWrapper = {

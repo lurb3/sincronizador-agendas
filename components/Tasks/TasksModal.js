@@ -42,6 +42,9 @@ const TasksModal = (props) => {
             body: JSON.stringify({query: `mutation {createTask(name:"${taskTitle}", description:"${taskDescription}", workbook_id:"${props.workbookid}" status:"open")}`})
         })
         .then(r => r.json())
+        .then(()=>{
+            props.createNewTask(false)
+        })
     }
 
     return (

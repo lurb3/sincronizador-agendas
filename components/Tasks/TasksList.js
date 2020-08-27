@@ -1,8 +1,5 @@
-import React from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView, Vibration } from "react-native";
-import { Link } from "react-router-native";
-import addButton from "../../images/workbook/add_button.png";
-import settingsButton from "../../images/workbook/settings_button.png";
+import React, { useEffect } from "react";
+import { View, Text, TouchableOpacity, ScrollView, Vibration } from "react-native";
 
 const TasksList = (props) => {
 

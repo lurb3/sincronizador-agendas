@@ -55,7 +55,6 @@ const WorkbookModal = (props) => {
             })
             .then(r => r.json())
             .then(data => {
-                console.log(data);
                 let workbookId = data.data.getWorkbook.id;
 
                 countries.map((item, index) => {
@@ -77,11 +76,12 @@ const WorkbookModal = (props) => {
                             },
                             body: JSON.stringify({query: `mutation {createWorkbookUser(user_id:"${data.data.getUserInfo.id}", workbook_id:"${workbookId}")}`})
                         })
-                        
                     })
                 })
             })
         })
+        
+        props.createWorkbook(false);
     }
 
     const fillAppUsers = () => {
@@ -143,7 +143,7 @@ const WorkbookModal = (props) => {
     return (
         <ScrollView style={{ display: "flex", flexDirection:"column", minHeight: "100%", width: "100%", backgroundColor: "white"}}>
             <View style={{padding:20, paddingTop:80, paddingBottom: 80, backgroundColor: "#4DA4F3"}}>
-                <TouchableOpacity onPress={ () => props.createWorkbook(false) } style={{position:"absolute", right:30, top:50, padding:10}}>
+                <TouchableOpacity onPress={ () => {props.createWorkbook(false);} } style={{position:"absolute", right:30, top:50, padding:10}}>
                     <Image
                         source={ CloseBtn }
                         style={{ height:20, width:20 }}
