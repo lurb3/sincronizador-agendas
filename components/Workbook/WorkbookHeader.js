@@ -33,7 +33,7 @@ const WorkbookHeader = (props) => {
             </Link>
             <View style={styles.header}>
                 <Text style={{fontSize:20}}>
-                    Workbook
+                    Agendas
                 </Text>
                 <View style={styles.headerIconWrapper}>   
                     <TouchableOpacity onPress={()=>{props.createWorkbook(true)}}>

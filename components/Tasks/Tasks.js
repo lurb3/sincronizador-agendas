@@ -10,7 +10,7 @@ import TasksModal from "./TasksModal";
 const Workbook = (props) => {
 
     const [data, setData] = useState('');
-    const [showModal, setShowModal] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 
     const styles = StyleSheet.create({
         listWrapper: {
@@ -38,9 +38,10 @@ const Workbook = (props) => {
           })
             .then(r => r.json())
             .then(data => {
+				console.log('data', data)
               setData(data.data.getTasks);
             });
-    }, [])
+    }, [showModal])
 
     return (
         <View>

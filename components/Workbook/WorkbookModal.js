@@ -34,54 +34,53 @@ const WorkbookModal = (props) => {
     const newWorkbook = () => {
         
         // Create new agenda and then select agenda's id to match it with the selected users
-        fetch('http://192.168.0.26:4000/graphql', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-            body: JSON.stringify({query: `mutation {createWorkbook(name:"${workbookName}", date:"${displayDate}", hour:"${displayHour}" timezone:"${userTimezone}")}`})
-        })
-        .then(r => r.json())
-        .then(data => {
-        
             fetch('http://192.168.0.26:4000/graphql', {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
                 },
-                body: JSON.stringify({query: `{getWorkbook(name: "${workbookName}"){id}}`})
+                body: JSON.stringify({query: `mutation {createWorkbook(name:"${workbookName}", date:"${displayDate}", hour:"${displayHour}" timezone:"${userTimezone}")}`})
             })
             .then(r => r.json())
             .then(data => {
-                let workbookId = data.data.getWorkbook.id;
+            
+                fetch('http://192.168.0.26:4000/graphql', {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({query: `{getWorkbook(name: "${workbookName}"){id}}`})
+                })
+                .then(r => r.json())
+                .then(data => {
+                    let workbookId = data.data.getWorkbook.id;
 
-                countries.map((item, index) => {
-                    fetch('http://192.168.0.26:4000/graphql', {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json',
-                          'Accept': 'application/json',
-                        },
-                        body: JSON.stringify({query: `{getUserInfo(user: "${item}"){id}}`})
-                    })
-                    .then(r => r.json())
-                    .then(data => {
+                    countries.map((item, index) => {
                         fetch('http://192.168.0.26:4000/graphql', {
                             method: 'POST',
                             headers: {
-                              'Content-Type': 'application/json',
-                              'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
                             },
-                            body: JSON.stringify({query: `mutation {createWorkbookUser(user_id:"${data.data.getUserInfo.id}", workbook_id:"${workbookId}")}`})
+                            body: JSON.stringify({query: `{getUserInfo(user: "${item}"){id}}`})
+                        })
+                        .then(r => r.json())
+                        .then(data => {
+                            fetch('http://192.168.0.26:4000/graphql', {
+                                method: 'POST',
+                                headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                },
+                                body: JSON.stringify({query: `mutation {createWorkbookUser(user_id:"${data.data.getUserInfo.id}", workbook_id:"${workbookId}")}`})
+                            })
                         })
                     })
                 })
             })
-        })
-        
-        props.createWorkbook(false);
+        .then(props.createWorkbook(false))
     }
 
     const fillAppUsers = () => {

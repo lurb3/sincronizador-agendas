@@ -15,21 +15,22 @@ const Workbook = (props) => {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-            fetch('http://192.168.0.26:4000/graphql', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                },
-                body: JSON.stringify({query: `{getUserInfo(user: "${props.user}"){id}}`})
-            })
-            .then(r => r.json())
-            .then(data => {
-                setUserId(data.data.getUserInfo.id);
-            });
-    },[])
+        fetch('http://192.168.0.26:4000/graphql', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            },
+            body: JSON.stringify({query: `{getUserInfo(user: "${props.user}"){id}}`})
+        })
+        .then(r => r.json())
+        .then(data => {
+            setUserId(data.data.getUserInfo.id);
+        });
+    },[showModal])
 
     useEffect(() => {
+        console.log("here")
         if(userId != '') {
             fetch('http://192.168.0.26:4000/graphql', {
                 method: 'POST',
@@ -41,10 +42,11 @@ const Workbook = (props) => {
             })
             .then(r => r.json())
             .then(data => {
+                console.log('data', data)
                 setWorkbookData(data);
             });
         }
-    },[userId])
+    },[userId, showModal])
 
     return (
         <View style={{minHeight:"100%", position:"relative"}}>
