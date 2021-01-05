@@ -7,4 +7,9 @@ router.post(
   UsersController.createUser
 )
 
+router.get(
+  "/",
+  UsersController.findUser
+)
+
 module.exports = router
