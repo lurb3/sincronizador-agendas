@@ -74,7 +74,7 @@ const root = {
 };
 
 let app = express();
-
+app.use(express.json())
 app.use(cors())
 app.use("/api/workbooks", routes.workbooks)
 app.use("/api/users", routes.users)
