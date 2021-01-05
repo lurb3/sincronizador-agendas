@@ -82,7 +82,7 @@ const SignupPage = (props) => {
     }
 
     const handleSub = (e) => {
-        fetch(process.env.REACT_APP_ADDRESS, {
+        fetch('http://192.168.1.5:4000/graphql', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ const SignupPage = (props) => {
     }
 
     const onSubmit = (data) => {
-        fetch(process.env.REACT_APP_ADDRESS, {
+        fetch('http://192.168.1.5:4000/graphql', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ const SignupPage = (props) => {
             body: JSON.stringify({query: `mutation {createUser(user: "${data.login}", name: "${data.name}", password: "${data.password}")}`})
         })
         .then(r => r.json())
-        .then(data => props.history.push('/'));
+        .then(data => console.log(data) /*props.history.push('/')*/);
     };
 
     useEffect(() => {

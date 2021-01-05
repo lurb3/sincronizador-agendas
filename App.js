@@ -16,7 +16,7 @@ import Workbook from "./components/Workbook/Workbook";
 import Tasks from "./components/Tasks/Tasks";
 
 const client = new ApolloClient({
-	uri: process.env.REACT_APP_ADDRESS
+	uri: 'http://192.168.1.5:4000/graphql'
 });
 
 const initialState = {

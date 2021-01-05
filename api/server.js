@@ -1,13 +1,19 @@
+require("dotenv").config()
 let express = require('express');
+const mongoose = require("mongoose")
+const Schema = mongoose.Schema
 let { graphqlHTTP } = require('express-graphql');
-let { buildSchema } = require('graphql');
 let passwordHash = require('password-hash');
 let mysql = require('mysql');
 const cors = require('cors');
-const { query } = require('express');
+const routes = require("./routes")
 
 let schema = require('./schema')
-let resolvers = require('./resolvers')
+//
+mongoose.connect(process.env.MONGO_DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
 
 const queryDB = (req, sql, args) => new Promise((resolve, reject) => {
     req.mysqlDb.query(sql, args, (err, rows) => {
@@ -68,7 +74,11 @@ const root = {
 };
 
 let app = express();
+
 app.use(cors())
+app.use("/api/workbooks", routes.workbooks)
+app.use("/api/users", routes.users)
+app.use("/api/tasks", routes.tasks)
 
 app.use((req, res, next) => {
     req.mysqlDb = mysql.createConnection({
@@ -89,4 +99,4 @@ app.use('/graphql', graphqlHTTP({
 
 app.listen(4000);
 
-console.log('Running a GraphQL API server at localhost:4000/graphql');
+console.log('Running a GraphQL API server at localhost:4000');

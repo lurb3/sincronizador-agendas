@@ -26,16 +26,15 @@ module.exports = {
     getUserInfo: (args, req) => queryDB(req, "select * from users where user = ?", [args.user]).then(data => data[0]),
     updateUserInfo: (args, req) => queryDB(req, "update users SET ? where id = ?", [args, args.id]).then(data => data),
     createUser: (args, req) => {
+        console.log(args)
         queryDB(req, "select user from users where user = ?", [args.user]).then(data => {
             if(data == '') {
                 args.password = passwordHash.generate(args.password);
                 queryDB(req, "insert into users set ?", args).then(data => data)
             } else {
-                return {data}
+                return "LASODASD"
             }
         })
-
-        //queryDB(req, "insert into users SET ?", args).then(data => data)
     },
     deleteUser: (args, req) => queryDB(req, "delete from users where id = ?", [args.id]).then(data => data),
 
