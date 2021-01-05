@@ -14,9 +14,7 @@ const LoginPage = (props) => {
           ...AccountStyle.title,
         },
         subtitle: {
-            ...AccountStyle.title,
-            fontWeight: 'normal',
-            fontSize: 16
+            ...AccountStyle.subtitle,
         },
         wrapper: {
             ...AccountStyle.wrapper
@@ -32,6 +30,9 @@ const LoginPage = (props) => {
         },
         signupLabel: {
             ...AccountStyle.signupLabel
+        },
+        defaultBtn: {
+            ...AccountStyle.defaultBtn
         }
     })
 
@@ -64,7 +65,7 @@ const LoginPage = (props) => {
     }
 
     const handleSubmit = (e) => {
-        fetch('http://192.168.0.26:4000/graphql', {
+        fetch(process.env.REACT_APP_ADDRESS, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -81,7 +82,7 @@ const LoginPage = (props) => {
                     props.dispatch(updateUserInfo(data.data.authUser.role, 'UPDATE_ROLE'))
                     props.history.push('/workbook')
                 } else {
-                    setUserFeedback("Wrong credentials")
+                    setUserFeedback("Invalid login or password")
                 }
             });
     }
@@ -99,37 +100,39 @@ const LoginPage = (props) => {
                 <Text style={styles.subtitle}>Sign in to workbook </Text>
             </View>
 
-            <Text style={styles.formLabel}>Login</Text>
-            <TextInput
-                style={styles.formInput}
-                onChange={ handleUser }
-                value={props.user}
-            />
+            <View style={{marginTop:"auto", marginBottom:"auto"}}>
+                <Text style={styles.formLabel}>Login</Text>
+                <TextInput
+                    style={styles.formInput}
+                    onChange={ handleUser }
+                    value={props.user}
+                />
 
-            <Text style={styles.formLabel}>
-                Password
-            </Text>
-
-            <TextInput
-                secureTextEntry={true}
-                style={styles.formInput}
-                onChange={ handlePassword }
-                value={props.password}
-            />
-
-            <TouchableOpacity style={{alignItems: "center", backgroundColor: "#0068C8", padding: 15}} activeOpacity={0.7} onPress={ handleSubmit }>
-                <Text style={styles.formSubmit}>
-                    Sign in
+                <Text style={styles.formLabel}>
+                    Password
                 </Text>
-            </TouchableOpacity>
 
-            <Text style={{textAlign:"right", color:"red"}}>{ userFeedback }</Text>
-            
-            <Link component={TouchableOpacity} to="/signup">
-                <Text style={ styles.signupLabel }>
-                    Sign up
-                </Text>
-            </Link>
+                <TextInput
+                    secureTextEntry={true}
+                    style={styles.formInput}
+                    onChange={ handlePassword }
+                    value={props.password}
+                />
+
+                <TouchableOpacity style={styles.defaultBtn} activeOpacity={0.7} onPress={ handleSubmit }>
+                    <Text style={styles.formSubmit}>
+                        Sign in
+                    </Text>
+                </TouchableOpacity>
+
+                <Text style={{textAlign:"right", color:"red", textAlign:"center"}}>{ userFeedback }</Text>
+                
+                <Link component={TouchableOpacity} to="/signup">
+                    <Text style={ styles.signupLabel }>
+                        Sign up
+                    </Text>
+                </Link>
+            </View>
         </ScrollView>
     );
 }
