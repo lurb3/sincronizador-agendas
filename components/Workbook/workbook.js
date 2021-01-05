@@ -15,11 +15,11 @@ const Workbook = (props) => {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        fetch('http://192.168.0.26:4000/graphql', {
+        fetch(process.env.REACT_APP_ADDRESS, {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
             },
             body: JSON.stringify({query: `{getUserInfo(user: "${props.user}"){id}}`})
         })
@@ -32,7 +32,7 @@ const Workbook = (props) => {
     useEffect(() => {
         console.log("here")
         if(userId != '') {
-            fetch('http://192.168.0.26:4000/graphql', {
+            fetch(process.env.REACT_APP_ADDRESS, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

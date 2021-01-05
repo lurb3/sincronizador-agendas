@@ -28,7 +28,7 @@ const Workbook = (props) => {
     })
 
     useEffect(() => {
-        fetch('http://192.168.0.26:4000/graphql', {
+        fetch(process.env.REACT_APP_ADDRESS, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

@@ -34,7 +34,7 @@ const WorkbookModal = (props) => {
     const newWorkbook = () => {
         
         // Create new agenda and then select agenda's id to match it with the selected users
-            fetch('http://192.168.0.26:4000/graphql', {
+            fetch(process.env.REACT_APP_ADDRESS, {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ const WorkbookModal = (props) => {
             .then(r => r.json())
             .then(data => {
             
-                fetch('http://192.168.0.26:4000/graphql', {
+                fetch(process.env.REACT_APP_ADDRESS, {
                     method: 'POST',
                     headers: {
                     'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ const WorkbookModal = (props) => {
                     let workbookId = data.data.getWorkbook.id;
 
                     countries.map((item, index) => {
-                        fetch('http://192.168.0.26:4000/graphql', {
+                        fetch(process.env.REACT_APP_ADDRESS, {
                             method: 'POST',
                             headers: {
                             'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const WorkbookModal = (props) => {
                         })
                         .then(r => r.json())
                         .then(data => {
-                            fetch('http://192.168.0.26:4000/graphql', {
+                            fetch(process.env.REACT_APP_ADDRESS, {
                                 method: 'POST',
                                 headers: {
                                 'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ const WorkbookModal = (props) => {
 
     const fillAppUsers = () => {
         // Fetching all users and filling dropdown array with corresponding objects
-        fetch('http://192.168.0.26:4000/graphql', {
+        fetch(process.env.REACT_APP_ADDRESS, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', },
             body: JSON.stringify({query: `{getUsers {id, user, role}}`})
