@@ -5,6 +5,7 @@ import { Link } from "react-router-native";
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import axios from 'axios';
 
 import * as AccountStyle from "../Styles/AccountStyles";
 
@@ -15,6 +16,8 @@ const schema = yup.object().shape({
 });
 
 const SignupPage = (props) => {
+    const [userFeedback, setUserFeedback] = useState('');
+
     const { handleSubmit, control, errors } = useForm({
         resolver: yupResolver(schema)
     });
@@ -95,16 +98,35 @@ const SignupPage = (props) => {
     }
 
     const onSubmit = (data) => {
-        fetch('http://192.168.1.5:4000/graphql', {
+        axios.post(`http://192.168.1.5:4000/api/users/createUser`, {
+            login: data.login,
+            name: data.name,
+            password: data.password 
+        })
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            if(err.response.data) {
+                setUserFeedback(err.response.data)
+            } else {
+                setUserFeedback("Could not create new user")
+            }
+        })
+        /*fetch('http://192.168.1.5:4000/api/users/createUser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },
-            body: JSON.stringify({query: `mutation {createUser(user: "${data.login}", name: "${data.name}", password: "${data.password}")}`})
-        })
-        .then(r => r.json())
-        .then(data => console.log(data) /*props.history.push('/')*/);
+            body: {
+                login: data.login,
+                name: data.name,
+                password: data.password
+            }
+        })*/
+        /*.then(r => r.json())
+        .then(data => console.log(data) props.history.push('/'));*/
     };
 
     useEffect(() => {
@@ -192,6 +214,8 @@ const SignupPage = (props) => {
                         Create account
                     </Text>
                 </TouchableOpacity>
+                
+                <Text style={{textAlign:"right", color:"red", textAlign:"center"}}>{ userFeedback }</Text>
             </View>
         </ScrollView>
     );
