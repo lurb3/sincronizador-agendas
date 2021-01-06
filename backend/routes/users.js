@@ -7,8 +7,8 @@ router.post(
   UsersController.createUser
 )
 
-router.get(
-  "/",
+router.post(
+  "/findUser",
   UsersController.findUser
 )
 

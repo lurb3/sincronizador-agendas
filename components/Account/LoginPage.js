@@ -1,13 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { View, ScrollView, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, ScrollView, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { Link } from "react-router-native";
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+import axios from 'axios';
+import LoadingIcon from "../../images/loading.gif";
 
 import * as AccountStyle from "../Styles/AccountStyles";
+
+const schema = yup.object().shape({
+    login: yup.string().required().min(3),
+    password: yup.string().required().min(5),
+});
 
 const LoginPage = (props) => {
 
     const [userFeedback, setUserFeedback] = useState('');
+    const [loggedin, setLoggedin] = useState(false);
+
+    const { handleSubmit, control, errors } = useForm({
+        resolver: yupResolver(schema)
+    });
 
     const styles = StyleSheet.create({
         title: {
@@ -25,16 +40,29 @@ const LoginPage = (props) => {
         formInput: {
             ...AccountStyle.formInput
         },
+        formError: {
+            ...AccountStyle.formError
+        },
+        formErrorMessage: {
+            ...AccountStyle.formErrorMessage
+        },
         formSubmit: {
             ...AccountStyle.formSubmit
         },
-        signupLabel: {
-            ...AccountStyle.signupLabel
-        },
         defaultBtn: {
             ...AccountStyle.defaultBtn
+        },
+        createdBtn: {
+            ...AccountStyle.defaultBtn,
+            backgroundColor:"#2CA44B",
+            display:"flex",
+            flexDirection:"row",
+            justifyContent: "center"
+        },
+        signupLabel: {
+            ...AccountStyle.signupLabel
         }
-    })
+      })
 
     const updateUserInfo = (input, type) => {
         switch(type) {
@@ -42,11 +70,6 @@ const LoginPage = (props) => {
                 return {
                     type: type,
                     payload: {user: input}
-                }
-            case 'UPDATE_PASSWORD' :
-                return {
-                    type: type,
-                    payload: {password: input}
                 }
             case 'UPDATE_ROLE' :
                 return {
@@ -60,36 +83,30 @@ const LoginPage = (props) => {
         props.dispatch(updateUserInfo(e.nativeEvent.text, 'UPDATE_USER'))
     }
 
-    const handlePassword = (e) => {
-        props.dispatch(updateUserInfo(e.nativeEvent.text, 'UPDATE_PASSWORD'))
-    }
-
-    const handleSubmit = (e) => {
-        fetch('http://192.168.1.5:4000/graphql', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-            body: JSON.stringify({query: `{authUser(user:"${props.user}", password:"${props.password}") {
-                status, role
-              }}`})
-          })
-            .then(r => r.json())
-            .then(data => {
-                if(data.data.authUser.status == 'authenticated') {
-                    setUserFeedback("")
-                    props.dispatch(updateUserInfo(data.data.authUser.role, 'UPDATE_ROLE'))
-                    props.history.push('/workbook')
-                } else {
-                    setUserFeedback("Invalid login or password")
-                }
-            });
-    }
+    const onSubmit = (data) => {
+        axios.post(`http://192.168.1.5:4000/api/users/findUser`, {
+            login: data.login,
+            password: data.password 
+        })
+        .then(res => {
+            if(res.status !== 200) {
+                setUserFeedback("Could not log in")
+                return
+            }
+            setLoggedin(true)
+            setTimeout(() => props.history.push('/workbook'),2000)
+        })
+        .catch(err => {
+            if(err.response.data) {
+                setUserFeedback(err.response.data)
+            } else {
+                setUserFeedback("Could not log in")
+            }
+        })
+    };
 
     useEffect(() => {
         props.dispatch(updateUserInfo('', 'UPDATE_USER'))
-        props.dispatch(updateUserInfo('', 'UPDATE_PASSWORD'))
         props.dispatch(updateUserInfo('', 'UPDATE_ROLE'))
     }, [])
 
@@ -102,28 +119,61 @@ const LoginPage = (props) => {
 
             <View style={{marginTop:"auto", marginBottom:"auto"}}>
                 <Text style={styles.formLabel}>Login</Text>
-                <TextInput
-                    style={styles.formInput}
-                    onChange={ handleUser }
-                    value={props.user}
+                <Controller
+                    name="login"
+                    control={control}
+                    defaultValue=""
+                    render={({ onChange, value }) => (
+                        <TextInput
+                            style={errors.login ? styles.formError : styles.formInput}
+                            onChangeText={(text) => {
+                                onChange(text)
+                                userFeedback !== '' ? setUserFeedback('') : ''
+                            }}
+                            value={value}
+                        />
+                    )}
                 />
+                {errors.login && <Text style={styles.formErrorMessage}>⚠ {errors.login.message}</Text>}
 
                 <Text style={styles.formLabel}>
                     Password
                 </Text>
 
-                <TextInput
-                    secureTextEntry={true}
-                    style={styles.formInput}
-                    onChange={ handlePassword }
-                    value={props.password}
+                <Controller
+                    name="password"
+                    control={control}
+                    defaultValue=""
+                    render={({ onChange, value }) => (
+                        <TextInput
+                        secureTextEntry={true}
+                            style={errors.password ? styles.formError : styles.formInput}
+                            onChangeText={(text) => {
+                                onChange(text)
+                                userFeedback !== '' ? setUserFeedback('') : ''
+                            }}
+                            value={value}
+                        />
+                    )}
                 />
+                {errors.password && <Text style={styles.formErrorMessage}>⚠ {errors.password.message}</Text>}
 
-                <TouchableOpacity style={styles.defaultBtn} activeOpacity={0.7} onPress={ handleSubmit }>
-                    <Text style={styles.formSubmit}>
-                        Sign in
-                    </Text>
-                </TouchableOpacity>
+                {
+                    loggedin ? 
+                        <View style={styles.createdBtn}>
+                            <Text style={styles.formSubmit}>✓ Loggin in.</Text>
+                            <Image
+                                source={ LoadingIcon }
+                                style={{width:20, height:20, marginLeft:5}}
+                            />
+                        </View>
+                    :
+                        <TouchableOpacity style={styles.defaultBtn} activeOpacity={0.7} onPress={ handleSubmit(onSubmit) }>
+                            <Text style={styles.formSubmit}>
+                                Sign in
+                            </Text>
+                        </TouchableOpacity>
+                }
 
                 <Text style={{textAlign:"right", color:"red", textAlign:"center"}}>{ userFeedback }</Text>
                 

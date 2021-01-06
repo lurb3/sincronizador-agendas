@@ -79,5 +79,5 @@ export const defaultBtn = {
     backgroundColor: "#0068C8",
     borderRadius:10,
     padding: 15,
-    marginTop:20
+    marginTop:20,
 }

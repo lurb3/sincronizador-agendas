@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { View, ScrollView, Text, Button, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, ScrollView, Text, Button, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { Link } from "react-router-native";
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import axios from 'axios';
+import LoadingIcon from "../../images/loading.gif";
 
 import * as AccountStyle from "../Styles/AccountStyles";
 
@@ -17,6 +18,7 @@ const schema = yup.object().shape({
 
 const SignupPage = (props) => {
     const [userFeedback, setUserFeedback] = useState('');
+    const [accountCreated, setAccountCreated] = useState(false);
 
     const { handleSubmit, control, errors } = useForm({
         resolver: yupResolver(schema)
@@ -49,53 +51,15 @@ const SignupPage = (props) => {
         },
         defaultBtn: {
             ...AccountStyle.defaultBtn
+        },
+        createdBtn: {
+            ...AccountStyle.defaultBtn,
+            backgroundColor:"#2CA44B",
+            display:"flex",
+            flexDirection:"row",
+            justifyContent: "center"
         }
       })
-
-    const updateUserInfo = (input, type) => {
-        switch(type) {
-            case 'UPDATE_USER' :
-                return {
-                    type: type,
-                    payload: {user: input}
-                }
-            case 'UPDATE_NAME' :
-                return {
-                    type: type,
-                    payload: {name: input}
-                }
-            case 'UPDATE_PASSWORD' :
-                return {
-                    type: type,
-                    payload: {password: input}
-                }
-        }
-    }
-
-    const handleUser = (e) => {
-        props.dispatch(updateUserInfo(e.nativeEvent.text, 'UPDATE_USER'))
-    }
-
-    const handleName = (e) => {
-        props.dispatch(updateUserInfo(e.nativeEvent.text, 'UPDATE_NAME'))
-    }
-
-    const handlePassword = (e) => {
-        props.dispatch(updateUserInfo(e.nativeEvent.text, 'UPDATE_PASSWORD'))
-    }
-
-    const handleSub = (e) => {
-        fetch('http://192.168.1.5:4000/graphql', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: JSON.stringify({query: `mutation {createUser(user: "${props.user}", name: "${props.name}", password: "${props.password}")}`})
-        })
-        .then(r => r.json())
-        .then(data => props.history.push('/'));
-    }
 
     const onSubmit = (data) => {
         axios.post(`http://192.168.1.5:4000/api/users/createUser`, {
@@ -104,22 +68,17 @@ const SignupPage = (props) => {
             password: data.password 
         })
         .then(res => {
-            console.log(res);
+            setAccountCreated(true)
+            setTimeout(() => props.history.push('/'),2000)
         })
         .catch(err => {
             if(err.response.data) {
                 setUserFeedback(err.response.data)
             } else {
-                setUserFeedback("Could not create new user")
+                setUserFeedback("Could not create user")
             }
         })
     };
-
-    useEffect(() => {
-        props.dispatch(updateUserInfo('', 'UPDATE_USER'))
-        props.dispatch(updateUserInfo('', 'UPDATE_NAME'))
-        props.dispatch(updateUserInfo('', 'UPDATE_PASSWORD'))
-    }, [])
 
     return (
         <ScrollView contentContainerStyle={styles.wrapper}>
@@ -145,17 +104,15 @@ const SignupPage = (props) => {
                     render={({ onChange, value }) => (
                         <TextInput
                             style={errors.login ? styles.formError : styles.formInput}
-                            onChangeText={(text) => onChange(text)}
+                            onChangeText={(text) => {
+                                onChange(text)
+                                userFeedback !== '' ? setUserFeedback('') : ''
+                            }}
                             value={value}
                         />
                     )}
                 />
                 {errors.login && <Text style={styles.formErrorMessage}>⚠ {errors.login.message}</Text>}
-                {/*<TextInput
-                    style={styles.formInput}
-                    onChange={ handleUser }
-                    value={props.user}
-                />*/}
 
                 <Text style={styles.formLabel}>
                     Name
@@ -168,7 +125,10 @@ const SignupPage = (props) => {
                     render={({ onChange, value }) => (
                         <TextInput
                             style={errors.name ? styles.formError : styles.formInput}
-                            onChangeText={(text) => onChange(text)}
+                            onChangeText={(text) => {
+                                onChange(text)
+                                userFeedback !== '' ? setUserFeedback('') : ''
+                            }}
                             value={value}
                         />
                     )}
@@ -178,7 +138,6 @@ const SignupPage = (props) => {
                 <Text style={styles.formLabel}>
                     Password
                 </Text>
-
                 
                 <Controller
                     name="password"
@@ -188,18 +147,34 @@ const SignupPage = (props) => {
                         <TextInput
                         secureTextEntry={true}
                             style={errors.password ? styles.formError : styles.formInput}
-                            onChangeText={(text) => onChange(text)}
+                            onChangeText={(text) => {
+                                onChange(text)
+                                userFeedback !== '' ? setUserFeedback('') : ''
+                            }}
                             value={value}
                         />
                     )}
                 />
                 {errors.password && <Text style={styles.formErrorMessage}>⚠ {errors.password.message}</Text>}
 
-                <TouchableOpacity style={styles.defaultBtn} activeOpacity={0.7} onPress={ handleSubmit(onSubmit) }>
-                    <Text style={styles.formSubmit}>
-                        Create account
-                    </Text>
-                </TouchableOpacity>
+                {
+                    accountCreated ? 
+                        <View style={styles.createdBtn}>
+                            <Text style={styles.formSubmit}>✓ Account created.</Text>
+                            <Image
+                                source={ LoadingIcon }
+                                style={{width:20, height:20, marginLeft:5}}
+                            />
+                        </View>
+                    :
+                        <TouchableOpacity style={styles.defaultBtn} activeOpacity={0.7} onPress={ handleSubmit(onSubmit) }>
+                            <Text style={styles.formSubmit}>
+                                Create account
+                            </Text>
+                        </TouchableOpacity>
+                }
+
+                
                 
                 <Text style={{textAlign:"right", color:"red", textAlign:"center"}}>{ userFeedback }</Text>
             </View>
