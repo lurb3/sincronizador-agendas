@@ -96,8 +96,8 @@ const LoginPage = (props) => {
     return (
         <ScrollView contentContainerStyle={styles.wrapper}>
             <View>
-                <Text style={styles.title}> Workbook App </Text>
-                <Text style={styles.subtitle}>Sign in to workbook </Text>
+                <Text style={styles.title}>Workbook</Text>
+                <Text style={styles.subtitle}>Sign in</Text>
             </View>
 
             <View style={{marginTop:"auto", marginBottom:"auto"}}>

@@ -113,20 +113,6 @@ const SignupPage = (props) => {
                 setUserFeedback("Could not create new user")
             }
         })
-        /*fetch('http://192.168.1.5:4000/api/users/createUser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            },
-            body: {
-                login: data.login,
-                name: data.name,
-                password: data.password
-            }
-        })*/
-        /*.then(r => r.json())
-        .then(data => console.log(data) props.history.push('/'));*/
     };
 
     useEffect(() => {
@@ -146,8 +132,8 @@ const SignupPage = (props) => {
             </View>
             
             <View>
-                <Text style={styles.title}> Workbook App </Text>
-                <Text style={styles.subtitle}>Sign in to workbook </Text>
+                <Text style={styles.title}>Workbook</Text>
+                <Text style={styles.subtitle}>Sign up</Text>
             </View>
 
             <View style={{marginTop:"auto", marginBottom:"auto"}}>

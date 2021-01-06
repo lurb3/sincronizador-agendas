@@ -7,15 +7,15 @@ export const wrapper = {
 }
 
 export const title = {
-    fontSize: 25,
+    paddingTop:50,
+    fontSize: 50,
     fontWeight: 'bold',
     color: "#0068C8",
-    marginBottom: 5,
     textAlign: "center",
 }
 
 export const subtitle = {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'normal',
     color: "#0068C8",
     textAlign: "center",
@@ -25,6 +25,7 @@ export const formLabel = {
     fontSize: 16,
     color: "#0068C8",
     textAlign: "center",
+    fontSize:16,
 }
 
 export const formInput = { 
@@ -34,25 +35,21 @@ export const formInput = {
     marginBottom: 20,
     padding: 10,
     alignSelf: "stretch",
-    borderColor: "rgba(0,0,0,0.19)",
-    borderWidth: 1,
     borderRadius:10,
-    shadowOffset: { width: 0, height: 2},
-    elevation: 4,
-    textAlign:'center'
+    elevation: 6,
+    textAlign:'center',
+    fontSize:16
 }
 
 export const formError = { 
     backgroundColor: "white",
-    borderWidth:1, 
     borderColor:"red",
     height: 40,
     padding: 10,
     alignSelf: "stretch",
     borderWidth: 1,
     borderRadius:10,
-    shadowOffset: { width: 0, height: 2},
-    elevation: 4,
+    elevation: 6,
     textAlign:'center'
 }
 
@@ -66,13 +63,15 @@ export const formSubmit = {
     alignItems: "center",
     color: "white",
     padding: 0,
+    fontSize:15,
+    fontWeight:"bold",
 }
 
 export const signupLabel = {
     fontSize: 16,
     color: "#0068C8",
-    textAlign: "right",
-    marginTop: 10
+    textAlign: "center",
+    fontWeight:"bold"
 }
 
 export const defaultBtn = {
@@ -80,4 +79,5 @@ export const defaultBtn = {
     backgroundColor: "#0068C8",
     borderRadius:10,
     padding: 15,
+    marginTop:20
 }
